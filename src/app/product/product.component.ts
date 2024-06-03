@@ -10,6 +10,7 @@ import { ProductsService } from '../products.service';
 })
 export class ProductComponent implements OnInit {
   @Input() productName: string = ""
+  currentProduct: any
 
   constructor(
     private productsService: ProductsService
@@ -17,6 +18,6 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.productsService.searchForSpecificProduct(this.productName))
+    this.currentProduct = this.productsService.searchForSpecificProduct(this.productName)
   }
 }
