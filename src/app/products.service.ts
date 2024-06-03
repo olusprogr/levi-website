@@ -21,14 +21,18 @@ export class ProductsService implements OnInit{
   constructor(
   ) {
     this.products = (products as any).default as Product[]
-    // console.log(this.products)
+    
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
   }
 
   getProducts(): Product[] {
     return this.products
+  }
+
+  searchForSpecificProduct(name: string): Product | undefined {
+    return this.products.find(product => product.name === name)
   }
 }

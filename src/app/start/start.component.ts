@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from '../products.service';
 import { CommonModule } from '@angular/common';

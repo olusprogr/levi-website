@@ -11,7 +11,7 @@ export const routes: Routes = [
         path: 'home', component: StartComponent
     },
     {
-        path: 'product?id=1', component: ProductComponent
+        path: 'home/product/:productName', component: ProductComponent
     },
     {
         path: '**', component: ErrorComponent

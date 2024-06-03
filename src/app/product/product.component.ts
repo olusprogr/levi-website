@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-product',
@@ -7,6 +8,15 @@ import { Component } from '@angular/core';
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
+  @Input() productName: string = ""
 
+  constructor(
+    private productsService: ProductsService
+  ) {
+  }
+
+  ngOnInit(): void {
+    console.log(this.productsService.searchForSpecificProduct(this.productName))
+  }
 }
