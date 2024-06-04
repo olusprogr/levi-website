@@ -2,16 +2,19 @@
     {
         "id": 1,
         "name": "Test shit",
-        "description": "test"
+        "description": "test",
+        "categories": ["NEW❗", "Discount", "Trended🔥"]
     },
     {
         "id": 2,
         "name": "Another test",
-        "description": "This is another test product"
+        "description": "This is another test product",
+        "categories": ["Trended🔥"]
     },
     {
         "id": 3,
         "name": "Third test",
-        "description": "Yet another test product"
+        "description": "Yet another test product",
+        "categories": ["Best Seller"]
     }
 ]

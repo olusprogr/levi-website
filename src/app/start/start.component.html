@@ -38,11 +38,11 @@
 </div> -->
 
 <div class="text-center category">
-  <button mat-raised-button color="primary">NEW❗</button>
-  <button mat-stroked-button color="basic">Trended🔥</button>
-  <button mat-stroked-button color="basic">Best Seller</button>
-  <button mat-stroked-button color="basic">Discount</button>
-  <button mat-stroked-button color="basic">Best price-performance-offer</button>
+  <button mat-raised-button color="primary" (click)="this.toggleCetegory(1)">NEW❗</button>
+  <button mat-stroked-button color="basic" (click)="this.toggleCetegory(2)">Trended🔥</button>
+  <button mat-stroked-button color="basic" (click)="this.toggleCetegory(3)">Best Seller</button>
+  <button mat-stroked-button color="basic" (click)="this.toggleCetegory(4)">Discount</button>
+  <button mat-stroked-button color="basic" (click)="this.toggleCetegory(5)">Best price-performance-offer</button>
 </div>
 
 <section class="text-gray-600 body-font">
