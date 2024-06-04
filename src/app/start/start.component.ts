@@ -3,7 +3,10 @@ import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from '../products.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
@@ -12,7 +15,11 @@ import { RouterLink } from '@angular/router';
   imports: [
     NgbCarousel,
     CommonModule,
-    RouterLink
+    RouterLink,
+    MatSlideToggleModule,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule
   ],
   templateUrl: './start.component.html',
   styleUrl: './start.component.css'
