@@ -28,6 +28,13 @@ export class StartComponent implements OnInit {
   products: any = []
   categoryProd: any = []
   currentCategory: string = ''
+  availableCategories: { [key: number]: string } = {
+    1: 'NEW❗',
+    2: 'Trended🔥',
+    3: 'Best Seller',
+    4: 'Discount',
+    5: 'Best price-performance-offer'
+  }
 
   constructor(
     private productsService: ProductsService
@@ -35,46 +42,34 @@ export class StartComponent implements OnInit {
 
   }
 
-  updateProducts(): void {
+  updateProducts(): [] {
+    this.categoryProd = []
     this.products = this.productsService.getProducts()
+    return this.products
   }
   
   ngOnInit(): void {
     this.updateProducts()
   }
 
-  private checkIfProductHasCategory(category: string, productList: any[]): boolean {
-    this.categoryProd = []
+  private checkIfProductHasCategory(category: string, productList: any[]): void {
     for (let product of productList) {
       for (let prodCategory of product.categories) {
         if (prodCategory === category) {
           this.categoryProd.push(product)
-          return true
         }
       }
     }
-    return false
   }
 
   toggleCetegory(categoryID: number): void {
-    const availableCategories: { [key: number]: string } = {
-      1: 'NEW❗',
-      2: 'Trended🔥',
-      3: 'Best Seller',
-      4: 'Discount',
-      5: 'Best price-performance-offer'
-    }
-    
-    if (availableCategories[categoryID] === undefined) {
-      return
-    } else {
-      this.currentCategory = availableCategories[categoryID]
-    }
+    if (this.availableCategories[categoryID] === undefined) {return}
+    if (this.currentCategory === this.availableCategories[categoryID]) {return}
 
-    if (this.checkIfProductHasCategory(this.currentCategory, this.products)) {
-      this.updateProducts()
-      this.products = this.categoryProd
-      console.log(this.products)
-    }
+    this.updateProducts()
+    this.currentCategory = this.availableCategories[categoryID]
+    this.checkIfProductHasCategory(this.availableCategories[categoryID], this.products)
+    this.products = this.categoryProd
+    
   }
 }
