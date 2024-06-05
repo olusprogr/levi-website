@@ -38,9 +38,7 @@ export class StartComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService
-  ) {
-
-  }
+  ) {}
 
   updateProducts(): [] {
     this.categoryProd = []
@@ -53,13 +51,7 @@ export class StartComponent implements OnInit {
   }
 
   private checkIfProductHasCategory(category: string, productList: any[]): void {
-    for (let product of productList) {
-      for (let prodCategory of product.categories) {
-        if (prodCategory === category) {
-          this.categoryProd.push(product)
-        }
-      }
-    }
+    this.categoryProd = productList.filter(product => product.categories.includes(category))
   }
 
   toggleCetegory(categoryID: number): void {
@@ -70,6 +62,5 @@ export class StartComponent implements OnInit {
     this.currentCategory = this.availableCategories[categoryID]
     this.checkIfProductHasCategory(this.availableCategories[categoryID], this.products)
     this.products = this.categoryProd
-    
   }
 }
