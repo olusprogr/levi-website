@@ -1,4 +1,17 @@
 
+.active {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+
+
+
+
+
+
+/* LOGO DESIGN */
+
 .logo-container {
     transform: scale(0.4);
 }

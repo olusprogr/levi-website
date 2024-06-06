@@ -35,6 +35,7 @@ export class StartComponent implements OnInit {
     4: 'Discount',
     5: 'Best price-performance-offer'
   }
+  activeButton: number | null = null
 
   constructor(
     private productsService: ProductsService
@@ -57,6 +58,8 @@ export class StartComponent implements OnInit {
   toggleCetegory(categoryID: number): void {
     if (this.availableCategories[categoryID] === undefined) {return}
     if (this.currentCategory === this.availableCategories[categoryID]) {return}
+
+    this.activeButton = categoryID
 
     this.updateProducts()
     this.currentCategory = this.availableCategories[categoryID]
