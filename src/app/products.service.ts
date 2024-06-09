@@ -1,5 +1,4 @@
 import { Injectable, OnInit } from '@angular/core';
-
 import * as products from '../assets/products/products.json'
 
 type Product = {
