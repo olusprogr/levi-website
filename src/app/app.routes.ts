@@ -11,21 +11,21 @@ export const routes: Routes = [
         path: '', redirectTo: 'home', pathMatch: 'full'
     },
     {
-        path: 'home', component: StartComponent
+        path: 'home', component: StartComponent, title: 'Home'
     },
     {
-        path: 'home/search', component: SearchComponent
+        path: 'home/search', component: SearchComponent, title: 'Search'
     },
     {
-        path: 'home/product/:productName', component: ProductComponent
+        path: 'home/product/:productName', component: ProductComponent, title: 'Product'
     },
     {
-        path: 'home/information', component: InformationComponent
+        path: 'home/information', component: InformationComponent, title: 'Information'
     },
     {
-        path: 'home/about-us', component: AboutUsComponent
+        path: 'home/about-us', component: AboutUsComponent, title: 'About Us'
     },
     {
-        path: '**', component: ErrorComponent
+        path: '**', component: ErrorComponent, title: 'Not Found'
     }
 ];
