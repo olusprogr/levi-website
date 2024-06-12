@@ -2,7 +2,7 @@
 <section class="text-gray-600 body-font overflow-hidden" id="header">
   <div class="container px-5 py-24 mx-auto" style="max-width: 1200px;">
     <div class="lg:w-4/5 mx-auto flex flex-wrap d-flex justify-center">
-      <img alt="ecommerce" class=" w-full lg:h-auto object-cover object-center rounded" [src]="this.currentProduct['img']" style="max-height: 400px; max-width: 440px; width: auto; height: auto">
+      <img alt="ecommerce" class=" w-full lg:h-auto object-cover object-center rounded" [src]="this.currentProduct['img']" loading="lazy" style="max-height: 400px; max-width: 440px; width: auto; height: auto">
       <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
         <h2 class="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{this.currentProduct["name"]}}</h1>
@@ -63,3 +63,4 @@
     </div>
   </div>
 </section>
+
