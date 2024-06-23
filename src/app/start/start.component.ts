@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from '../products.service';
 import { CommonModule } from '@angular/common';
@@ -38,15 +38,8 @@ export class StartComponent implements OnInit {
   activeButton: number | null = null
 
   constructor(
-    private productsService: ProductsService,
-    {nativeElement}: ElementRef<HTMLElement> 
-  ) {
-    const support = 'loading' in HTMLImageElement.prototype
-    if (support) {
-      nativeElement.setAttribute('loading', 'lazy')
-    }
-  }
-
+    private productsService: ProductsService
+  ) {}
 
   updateProducts(): [] {
     this.categoryProd = []
