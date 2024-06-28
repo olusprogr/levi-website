@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ElementRef } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -27,6 +28,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.currentProduct = this.productsService.searchForSpecificProduct(this.productName)
+  }
+
+  private async requestDataFromService(): Promise<Observable<any>> {
+    while (true) {
+      await new Promise(r => setTimeout(r, 500));
+      this.currentProduct = this.productsService.searchForSpecificProduct(this.productName)
+    }
   }
 
   public navigateToWebsite() {

@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
-import * as products from '../assets/products/products.json'
+import * as products from '../assets/products/products.json';
+import { ApiService } from './api.service';
 
 type Product = {
   id: number;
@@ -8,30 +9,37 @@ type Product = {
   description: string;
   image: string;
   category: string;
-}
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService implements OnInit{
 
-  private products: Product[] = []
+  private products: Product[] = [];
 
   constructor(
+    private apiService: ApiService,
   ) {
-    this.products = (products as any).default as Product[]
-    
-  }
+    this.requestProductsFromAPI();
+  };
 
   ngOnInit(): void {
+    // this.products = (products as any).default as Product[];
+  };
 
+  private requestProductsFromAPI(): void {
+    this.apiService.requestProductsFromAPI().subscribe((products: Product[]) => {
+      this.products = products;
+    });
+    console.log('Requesting data from service...')
   }
 
-  getProducts(): Product[] {
-    return this.products
-  }
+  public getProducts(): Product[] {
+    return this.products;
+  };
 
   searchForSpecificProduct(name: string): Product | undefined {
-    return this.products.find(product => product.name === name)
-  }
+    return this.products.find(product => product.name === name);
+  };
 }
