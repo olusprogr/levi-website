@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  baseURL: string = 'http://localhost:3000/api';
+  baseURL: string = 'https://savesphere-backend.onrender.com/api';
 
   constructor(
     private http: HttpClient,
