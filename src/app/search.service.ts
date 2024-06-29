@@ -4,22 +4,42 @@ import { ProductsService } from './products.service';
   providedIn: 'root'
 })
 export class SearchService {
-  products: any[] = []
-  productNames: string[] = []
+  public products: any[] = [];
+  public productNames: string[] = []
 
   constructor(
     private productService: ProductsService
   ) {
-    this.products = this.productService.getProducts()
-    this.products.forEach(product => {
-      this.productNames.push(product.name)
-    });
+    this.requestProducts();
+    this.filterProductsByNamesWhenAvailable();
+  }
+
+  private async filterProductsByNamesWhenAvailable() {
+    while (true) {
+      await new Promise(r => setTimeout(r, 100));
+      if (this.products.length !== 0) {
+        this.products.forEach(product => {
+          this.productNames.push(product.name);
+        });
+        break
+      }
+    }
+  }
+
+  // trying to request every 100miliseconds products from the service. if found, break the loop
+  private async requestProducts() {
+    while (true) {
+      await new Promise(r => setTimeout(r, 100));
+      this.products = this.productService.getProducts();
+      if (this.products.length !== 0) {break}
+    }
   }
 
   public searchForProduct(
     target: string,
     arr: string[] = this.productNames
   ): any[] | null {
+    if (this.products.length === 0) {return null}
     const elementsFound = [];
     for (let i = 0; i < arr.length; i++) {
         if (arr[i].includes(target)) {

@@ -79,5 +79,7 @@ export class StartComponent implements OnInit {
     this.checkIfProductHasCategory(this.currentCategory, this.products)
     // then apply the filtered products to this.products
     this.products = this.categoryProd
+    // finally set the activeButton to the categoryID
+    this.activeButton = categoryID
   }
 }

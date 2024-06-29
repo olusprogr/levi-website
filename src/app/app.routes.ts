@@ -5,6 +5,9 @@ import { ProductComponent } from './product/product.component';
 import { InformationComponent } from './information/information.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { SearchComponent } from './search/search.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { ActivityComponent } from './admin-panel/activity/activity.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
     {
@@ -24,6 +27,16 @@ export const routes: Routes = [
     },
     {
         path: 'home/about-us', component: AboutUsComponent, title: 'About Us'
+    },
+    {
+        path: 'home/login', component: LoginComponent, title: 'Login'
+    },
+    {
+        path: 'home/admin-panel/:admin', component: AdminPanelComponent, title: 'Admin Panel', children: [
+            {
+                path: 'activity', component: ActivityComponent, title: 'Activity'
+            }
+        ]
     },
     {
         path: '**', component: ErrorComponent, title: 'Not Found'
