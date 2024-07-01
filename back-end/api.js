@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const bcrypt = require('bcrypt');
 
 const uri = "mongodb+srv://olusmain:paR0r7oIQ82eM9PI@cluster0.ztby1wg.mongodb.net/?retryWrites=true&w=majority";
 
@@ -15,9 +16,9 @@ const client = new MongoClient(uri, {
 });
 
 let apiExecutionsInTotal = 0;
-
-app.set('trust proxy', true);
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.set('trust proxy', false);
 
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`, 'http://localhost:' + port);
@@ -56,17 +57,45 @@ app.get('/api/getProducts/', async (req, res) => {
   }
 })
 
-
-app.get('/api/insertProducts/', async (req, res) => {
-  return; // Disable this route to prevent inserting products into database
+app.get('/api/checkLoginCredentials/:fullname/:password', async (req, res) => {
+  const { fullname, password } = req.params;
   try {
-    console.log('Inserting products into database...');
     const database = client.db('savespehere');
-    const collection = database.collection('products');
-    const results = await collection.insertMany(projects);
-    res.send(results);
+    const collection = database.collection('admins');
+    const user = await collection.findOne({ fullname });
+    if (!user) {
+      res.send({'error': 'User not found.'});
+      return;
+    }
+
+    const passwordMatch = bcrypt.compare(password.toString(), user.password.toString());
+    if (passwordMatch) {
+      res.send({'success': 'User found and password matches.'});
+    } else {
+      res.send({'error': 'Password incorrect.'});
+    }
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed checkLoginCredentials route!`);
   } catch(error) {
-    console.log('Error inserting products into database.');
-    res.send({'error': 'Error inserting products into database.'});
+    console.log('Error fetching users from database.', error);
+    res.send({'error': 'Error fetching users from database.'});
   }
 });
+
+
+
+
+// app.get('/api/insertProducts/', async (req, res) => {
+//   return; // Disable this route to prevent inserting products into database
+//   try {
+//     console.log('Inserting products into database...');
+//     const database = client.db('savespehere');
+//     const collection = database.collection('products');
+//     const results = await collection.insertMany(projects);
+//     res.send(results);
+//   } catch(error) {
+//     console.log('Error inserting products into database.');
+//     res.send({'error': 'Error inserting products into database.'});
+//   }
+// });

@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ActivityComponent } from './admin-panel/activity/activity.component';
 import { LoginComponent } from './login/login.component';
+import { AiChatComponent } from './admin-panel/ai-chat/ai-chat.component';
 
 export const routes: Routes = [
     {
@@ -35,6 +36,9 @@ export const routes: Routes = [
         path: 'home/admin-panel/:admin', component: AdminPanelComponent, title: 'Admin Panel', children: [
             {
                 path: 'activity', component: ActivityComponent, title: 'Activity'
+            },
+            {
+                path: 'ai-chat', component: AiChatComponent, title: 'AI Chat'
             }
         ]
     },

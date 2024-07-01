@@ -6,14 +6,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  baseURL: string = 'https://savesphere-backend.onrender.com/api';
+  private baseURL: string = 'https://savesphere-backend.onrender.com/api';
+  private secondURL: string = 'http://localhost:3000/api'
 
   constructor(
     private http: HttpClient,
   ) { }
 
   public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
-    console.log('Requesting products from API...');
-    return this.http.get<any[]>(this.baseURL + path);
+    return this.http.get<any[]>(this.secondURL + path);
+  }
+
+  public checkLoginCredentials(
+    path: string = '/checkLoginCredentials/',
+    fullname: string = ' ',
+    password: string = ' '
+  ): Observable<any> {
+    return this.http.get<any>(`${this.secondURL}${path}${fullname}/${password}`);
   }
 }
