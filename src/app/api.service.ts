@@ -14,7 +14,7 @@ export class ApiService {
   ) { }
 
   public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
-    return this.http.get<any[]>(this.secondURL + path);
+    return this.http.get<any[]>(this.baseURL + path);
   }
 
   public checkLoginCredentials(
@@ -22,6 +22,6 @@ export class ApiService {
     fullname: string = ' ',
     password: string = ' '
   ): Observable<any> {
-    return this.http.get<any>(`${this.secondURL}${path}${fullname}/${password}`);
+    return this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
   }
 }
