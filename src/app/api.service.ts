@@ -11,7 +11,8 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+  }
 
   public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
     return this.http.get<any[]>(this.baseURL + path);
@@ -23,5 +24,29 @@ export class ApiService {
     password: string = ' '
   ): Observable<any> {
     return this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
+  }
+
+
+  public addUserActivityToLog(path: string): Observable<any> {
+    const url = `${this.secondURL}/addUserActivityToLog/`;
+    const data = { route: path, date: this.getCurrentTimeDE() };
+
+    return this.http.post<any>(url, data);
+  }
+
+  private getCurrentTimeDE(): string {
+    const now = new Date();
+
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: 'Europe/Berlin',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    };
+
+    return now.toLocaleString('de-DE', options);
   }
 }

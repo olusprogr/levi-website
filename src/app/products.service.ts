@@ -29,10 +29,10 @@ export class ProductsService implements OnInit{
   };
 
   private requestProductsFromAPI(): void {
+    console.log('Requesting data from service...')
     this.apiService.requestProductsFromAPI().subscribe((products: Product[]) => {
       this.products = products;
     });
-    console.log('Requesting data from service...')
   }
 
   public getProducts(): Product[] {

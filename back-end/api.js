@@ -15,10 +15,18 @@ const client = new MongoClient(uri, {
     }
 });
 
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+};
+
 let apiExecutionsInTotal = 0;
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 app.set('trust proxy', false);
+app.use(cors());
+app.use(express.json());
+
 
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`, 'http://localhost:' + port);
@@ -83,6 +91,20 @@ app.get('/api/checkLoginCredentials/:fullname/:password', async (req, res) => {
   }
 });
 
+app.post('/api/addUserActivityToLog/', async (req, res) => {
+  try {
+    const database = client.db('savespehere');
+    const collection = database.collection('logs');
+    const result = await collection.insertOne(req.body);
+    res.send(result);
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed addUserActivityToLog route!`);
+  } catch (error) {
+    console.error('Error logging activity:', error);
+    res.status(500).send('Error logging activity');
+  }
+});
 
 
 

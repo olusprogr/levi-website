@@ -4,9 +4,10 @@ import { ProductsService } from '../products.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { ApiService } from '../api.service';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class StartComponent implements OnInit {
   public activeButton: number | null = null
 
   constructor(
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private api: ApiService
   ) {
     this.requestDataFromService()
   }
@@ -61,6 +63,10 @@ export class StartComponent implements OnInit {
   
   ngOnInit(): void {
     this.updateProducts()
+    this.api.addUserActivityToLog('/home').subscribe(
+      response => {console.log('User activity logged successfully:', response)},
+      error => {console.error('Error logging user activity:', error)}
+    );
   }
 
   private checkIfProductHasCategory(category: string, productList: any[]): void {
