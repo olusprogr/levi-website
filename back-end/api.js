@@ -106,6 +106,21 @@ app.post('/api/addUserActivityToLog/', async (req, res) => {
   }
 });
 
+app.get('/api/getUserActivityLog/', async (req, res) => {
+  try {
+    const database = client.db('savespehere');
+    const collection = database.collection('logs');
+    const cursor = collection.find({}).sort({ _id: -1 }).limit(20);
+    const results = await cursor.toArray();
+    res.send(results);
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed getUserActivityLog route!`);
+  } catch (error) {
+    console.error('Error fetching logs:', error);
+    res.status(500).send('Error fetching logs');
+  }
+});
 
 
 // app.get('/api/insertProducts/', async (req, res) => {

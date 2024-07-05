@@ -12,6 +12,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
   ) {
+    this.baseURL = this.secondURL;
   }
 
   public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
@@ -26,9 +27,8 @@ export class ApiService {
     return this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
   }
 
-
   public addUserActivityToLog(path: string): Observable<any> {
-    const url = `${this.secondURL}/addUserActivityToLog/`;
+    const url = `${this.baseURL}/addUserActivityToLog/`;
     const data = { route: path, date: this.getCurrentTimeDE() };
 
     return this.http.post<any>(url, data);
@@ -48,5 +48,9 @@ export class ApiService {
     };
 
     return now.toLocaleString('de-DE', options);
+  }
+
+  public requestUserActivityLog(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseURL}/getUserActivityLog/`);
   }
 }

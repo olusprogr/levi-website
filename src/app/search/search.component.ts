@@ -3,6 +3,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../search.service';
 import { RouterModule } from '@angular/router';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-search',
@@ -15,17 +16,18 @@ import { RouterModule } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
-export class SearchComponent implements AfterViewInit{
+export class SearchComponent implements AfterViewInit {
   public inputValue: string = '';
   public products: any[] = []
 
   constructor(
-    private searchService: SearchService
+    private searchService: SearchService,
+    private apiService: ApiService
   ) {
-    
   }
+  
   ngAfterViewInit(): void {
-
+    this.apiService.addUserActivityToLog('/home/search').subscribe();
   }
 
   public async onInputChange(event: any) {

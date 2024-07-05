@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-about-us',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './about-us.component.html',
   styleUrl: './about-us.component.css'
 })
-export class AboutUsComponent {
+export class AboutUsComponent implements AfterViewInit {
+  constructor(private apiService: ApiService) {}
 
+  ngAfterViewInit(): void {
+    this.apiService.addUserActivityToLog('/home/about-us').subscribe();
+  }
 }

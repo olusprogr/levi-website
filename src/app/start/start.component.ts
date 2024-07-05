@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '../api.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -20,7 +21,8 @@ import { ApiService } from '../api.service';
     MatSlideToggleModule,
     MatIconModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinner
   ],
   templateUrl: './start.component.html',
   styleUrl: './start.component.css'
@@ -38,6 +40,7 @@ export class StartComponent implements OnInit {
     5: 'Best price-performance-offer'
   }
   public activeButton: number | null = null
+  public isLoaded: boolean = false
 
   constructor(
     private productsService: ProductsService,
@@ -50,23 +53,22 @@ export class StartComponent implements OnInit {
     while (true) {
       await new Promise(r => setTimeout(r, 500));
       this.products = this.productsService.getProducts();
-      this.staticProducts = this.products
-      if (this.products != undefined || this.products != null) {break}
+      this.staticProducts = this.products;
+      if (this.products != undefined || this.products != null) {
+        this.isLoaded = true;
+        break;
+      }
     }
   }
 
   private updateProducts(): [] | void {
-    this.categoryProd = []
-    this.products = this.staticProducts
-    // return this.products
+    this.categoryProd = [];
+    this.products = this.staticProducts;
   }
   
   ngOnInit(): void {
-    this.updateProducts()
-    this.api.addUserActivityToLog('/home').subscribe(
-      response => {console.log('User activity logged successfully:', response)},
-      error => {console.error('Error logging user activity:', error)}
-    );
+    this.updateProducts();
+    this.api.addUserActivityToLog('/home').subscribe();
   }
 
   private checkIfProductHasCategory(category: string, productList: any[]): void {

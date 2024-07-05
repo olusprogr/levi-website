@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component } from '@angular/core';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-information',
@@ -7,6 +8,12 @@ import { Component } from '@angular/core';
   templateUrl: './information.component.html',
   styleUrl: './information.component.css'
 })
-export class InformationComponent {
+export class InformationComponent implements AfterViewInit {
+  constructor(
+    private apiService: ApiService
+  ) {}
 
+  ngAfterViewInit(): void {
+    this.apiService.addUserActivityToLog('/home/information').subscribe();
+  }
 }

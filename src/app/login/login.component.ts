@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,7 @@ import { query } from '@angular/animations';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit{
   public fullname: string = '';
   public password: string = '';
   private isLoginDataCorrect: boolean = false;
@@ -29,6 +29,9 @@ export class LoginComponent {
     private router: Router
   ) {
     this.checkIfDataIsCorrect();
+  }
+  ngAfterViewInit(): void {
+    this.apiService.addUserActivityToLog('/home/search').subscribe();
   }
 
   public login() {
