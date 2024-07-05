@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, race } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private baseURL: string = 'https://savesphere-backend.onrender.com/api';
-  private secondURL: string = 'http://localhost:3000/api'
+  private secondURL: string = 'https://savesphere-backend-2.onrender.com/api';
+  private localURL: string = 'http://localhost:3000/api';
 
   constructor(
     private http: HttpClient,
   ) {
-    // this.baseURL = this.secondURL;
   }
 
   public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
-    return this.http.get<any[]>(this.baseURL + path);
+    const primaryAPI = this.http.get<any[]>(this.baseURL + path)
+    const secondaryAPI = this.http.get<any[]>(this.secondURL + path)
+    return race(primaryAPI, secondaryAPI) as Observable<any[]>
   }
 
   public checkLoginCredentials(
@@ -24,14 +26,18 @@ export class ApiService {
     fullname: string = ' ',
     password: string = ' '
   ): Observable<any> {
-    return this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
+    const primaryAPI = this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
+    const secondaryAPI = this.http.get<any>(`${this.secondURL}${path}${fullname}/${password}`);
+    return race(primaryAPI, secondaryAPI) as Observable<any[]>;
   }
 
   public addUserActivityToLog(path: string): Observable<any> {
     const url = `${this.baseURL}/addUserActivityToLog/`;
     const data = { route: path, date: this.getCurrentTimeDE() };
 
-    return this.http.post<any>(url, data);
+    const primaryAPI = this.http.post<any>(url, data);
+    const secondaryAPI = this.http.post<any>(url, data);
+    return race(primaryAPI, secondaryAPI) as Observable<any[]>
   }
 
   private getCurrentTimeDE(): string {
@@ -51,6 +57,8 @@ export class ApiService {
   }
 
   public requestUserActivityLog(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseURL}/getUserActivityLog/`);
+    const primaryAPI = this.http.get<any[]>(`${this.baseURL}/getUserActivityLog/`);
+    const secondaryAPI = this.http.get<any[]>(`${this.secondURL}/getUserActivityLog/`);
+    return race(primaryAPI, secondaryAPI) as Observable<any[]>
   }
 }
