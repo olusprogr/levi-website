@@ -12,7 +12,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
   ) {
-    this.baseURL = this.secondURL;
+    // this.baseURL = this.secondURL;
   }
 
   public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
