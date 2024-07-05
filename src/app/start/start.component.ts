@@ -49,12 +49,24 @@ export class StartComponent implements OnInit {
     this.requestDataFromService()
   }
 
+  private shuffleArray<T>(array: T[]): T[] {
+    const shuffledArray = [...array];
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+
+    return shuffledArray;
+  }
+  
   private async requestDataFromService() {
     while (true) {
       await new Promise(r => setTimeout(r, 500));
       this.products = this.productsService.getProducts();
       this.staticProducts = this.products;
       if (this.products.length > 0) {
+        this.products = this.shuffleArray(this.products);
         this.isLoaded = true;
         break;
       }
