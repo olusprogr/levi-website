@@ -54,8 +54,7 @@ export class StartComponent implements OnInit {
       await new Promise(r => setTimeout(r, 500));
       this.products = this.productsService.getProducts();
       this.staticProducts = this.products;
-      console.log(this.products)
-      if (this.products != undefined || this.products != null) {
+      if (this.products.length > 0) {
         this.isLoaded = true;
         break;
       }
