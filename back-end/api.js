@@ -110,7 +110,7 @@ app.get('/api/getUserActivityLog/', async (req, res) => {
   try {
     const database = client.db('savespehere');
     const collection = database.collection('logs');
-    const cursor = collection.find({}).sort({ _id: -1 }).limit(20);
+    const cursor = collection.find({}).sort({ _id: -1 }).limit(30);
     const results = await cursor.toArray();
     res.send(results);
 

@@ -17,8 +17,12 @@ export class AdminPanelComponent {
   @Input() public admin: string = '';
 
   constructor(
-    private router: Router
+    private router: Router,
   ) {}
+
+  public refreshCurrentWebsite() {
+    window.location.reload();
+  }
 
   public triggerDeploy() {
     window.open('https://api.render.com/deploy/srv-cpv3d6tumphs73c4u5j0?key=y_z5xJiMmcw', '_blank');

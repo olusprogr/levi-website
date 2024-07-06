@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -11,6 +11,5 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './ai-chat.component.css'
 })
 export class AiChatComponent {
-
   constructor() {}
 }
