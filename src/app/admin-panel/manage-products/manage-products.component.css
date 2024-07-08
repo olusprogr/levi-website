@@ -1,0 +1,32 @@
+.truncate-text {
+    max-width: 200px;
+    max-height: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-container {
+    white-space: pre-wrap;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+.text-container::after {
+    content: '\A';
+    white-space: pre;
+    display: block;
+}
+
+.text-container > * {
+    display: inline-block;
+    width: 25ch;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.text-container > *:nth-child(4n + 1) {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+

@@ -6,13 +6,14 @@
 </div>
 
 <div class="d-flex justify-center act-but mt-5 mb-5">
-    <button mat-raised-button>Manage Products</button>
+    <button mat-raised-button routerLink="/home/admin-panel/test/manage-products">Manage Products</button>
     <button mat-raised-button routerLink="/home/admin-panel/test/activity">See Activity</button>
     <h1 class="d-flex items-center">
         <button mat-raised-button (click)="this.enterAIChat()">Coding AI</button>
     </h1>
     <button class="bg-red-500 btn btn-danger" (click)="this.triggerDeploy()">Restart Website</button>    
 </div>
+
 <router-outlet></router-outlet>
 
 

@@ -1,0 +1,41 @@
+
+<div class="mx-20">
+    <table class="table" *ngIf="this.isLoaded">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col">Categories</th>
+            <th scope="col">Link</th>
+            <th scope="col">Price</th>
+            <th scope="col">Discount</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let prod of this.products; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td class="truncate-text">
+                    <div class="text-container truncate-text">
+                        {{prod.name}}
+                    </div>
+                </td>
+                <td>{{prod.description}}</td>
+                <td><img [src]="prod.img" alt="product image" class="product-image truncate-text"></td>
+                <td>{{prod.categories}}</td>
+                <td class="truncate-text"><a href="{{prod.link}}">{{prod.link}}</a></td>
+                <td>{{prod.price}}</td>
+                <td>{{prod.discount}}</td>
+                <td>
+                    <button class="btn btn-primary mx-2" (click)="this.editProduct(prod)">Edit</button>
+                    <button class="btn btn-danger" (click)="this.deleteProduct(prod)">Delete</button>
+                </td>               
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="d-flex justify-center mt-10">
+        <mat-spinner *ngIf="!this.isLoaded"></mat-spinner>
+    </div>    
+</div>

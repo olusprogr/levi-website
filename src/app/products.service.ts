@@ -5,11 +5,13 @@ import { ApiService } from './api.service';
 type Product = {
   id: number;
   name: string;
-  price: number;
   description: string;
-  image: string;
-  category: string;
-};
+  img: string;
+  categories: string[];
+  link: string;
+  price: number;
+  discount: number;
+}
 
 @Injectable({
   providedIn: 'root'
