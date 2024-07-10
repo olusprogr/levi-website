@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, race } from 'rxjs';
 
 @Injectable({
@@ -60,5 +60,21 @@ export class ApiService {
     const primaryAPI = this.http.get<any[]>(`${this.baseURL}/getUserActivityLog/`);
     const secondaryAPI = this.http.get<any[]>(`${this.secondURL}/getUserActivityLog/`);
     return race(primaryAPI, secondaryAPI) as Observable<any[]>
+  }
+
+  public removeSpecificProductFromDataBase(
+    id: number,
+    name: string,
+  ): Observable<any> {
+    console.log('Called deleteSpecificProductFromDatabase()', id, name);
+    const url = `${this.localURL}/deleteSpecificProductFromDatabase/`;
+
+    const options = {
+      params: new HttpParams().set('id', id.toString()).set('name', name)
+    };
+
+    const primaryAPI = this.http.delete<any>(url, options);
+    const secondaryAPI = this.http.delete<any>(url, options);
+    return race(primaryAPI, secondaryAPI) as Observable<any[]>;
   }
 }

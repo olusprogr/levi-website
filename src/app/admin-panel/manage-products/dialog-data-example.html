@@ -1,14 +1,17 @@
 <h2 mat-dialog-title>Edit Product</h2>
-<mat-dialog-content class="d-flex justify-center content-center flex-col max-w-xl">
+<mat-dialog-content class="d-flex justify-center content-center flex-col max-w-xl h-full">
   <form #editForm="ngForm">
     <div class="d-flex flex-wrap justify-between w-full">
-      <div class="mx-1 flex-1" style="width: 48%;">
+      <div class="flex-1" style="width: 48%;">
         <mat-form-field class="w-full">
           <mat-label>Name</mat-label>
           <input matInput name="name" [(ngModel)]="formData.name" required>
         </mat-form-field>
       </div>
-      <div class="mx-1 flex-1" style="width: 48%;">
+    </div>
+
+    <div class="d-flex flex-wrap justify-between w-full">
+      <div class="flex-1" style="width: 48%;">
         <mat-form-field class="w-full">
           <mat-label>Description</mat-label>
           <input matInput name="description" [(ngModel)]="formData.description" required>
@@ -17,60 +20,86 @@
     </div>
     
     <div class="d-flex flex-wrap justify-between w-full">
-      <div class="mx-1 flex-1" style="width: 48%;">
+      <div class="flex-1" style="width: 48%;">
         <mat-form-field class="w-full">
           <mat-label>Image link</mat-label>
-          <input matInput name="imageLink" [(ngModel)]="formData.imageLink">
+          <textarea matInput name="imageLink" [(ngModel)]="formData.imageLink"></textarea>
         </mat-form-field>
       </div>
-      <div class="mx-1 flex-1" style="width: 48%;">
-        <mat-form-field class="w-full">
-          <mat-label>Categories</mat-label>
-          <mat-select name="category" [(ngModel)]="formData.category" required>
-            <mat-option value="one">Discount</mat-option>
-            <mat-option value="two">Trended🔥</mat-option>
-            <mat-option value="three">Best Seller</mat-option>
-            <mat-option value="four">NEW❗</mat-option>
-            <mat-option value="five">Best price-performance-offer</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-    
-    <div class="d-flex flex-wrap justify-between w-full">
-      <div class="mx-1 flex-1" style="width: 48%;">
+      <div class="mb-1 flex-1" style="width: 48%;">
         <mat-form-field class="w-full">
           <mat-label>Product link</mat-label>
           <textarea matInput name="productLink" [(ngModel)]="formData.productLink" required></textarea>
         </mat-form-field>
       </div>
-      <div class="mx-1 flex-1" style="width: 48%;">
-        <mat-form-field class="w-full" floatLabel="always">
-          <mat-label>Amount</mat-label>
-          <input matInput type="number" name="amount" [(ngModel)]="formData.amount">
-          <span matTextPrefix>$&nbsp;</span>
-          <span matTextSuffix>.00</span>
-        </mat-form-field>
-      </div>
     </div>
     
     <div class="d-flex flex-wrap justify-between w-full">
-      <div class="mx-1 flex-1" style="width: 48%;">
+      <div class="flex-1" style="width: 48%;">
+        <mat-form-field class="w-full" floatLabel="always">
+          <mat-label>Amount</mat-label>
+          <input matInput name="amount" [(ngModel)]="formData.amount" required>
+        </mat-form-field>
+      </div>
+      <div class="flex-1" style="width: 48%;">
         <mat-form-field class="w-full" floatLabel="always">
           <mat-label>Discount</mat-label>
-          <input matInput type="number" name="discount" [(ngModel)]="formData.discount">
-          <span matTextPrefix>%</span>
-          <span matTextSuffix>.00</span>
+          <input matInput name="discount" [(ngModel)]="formData.discount">
         </mat-form-field>
       </div>
     </div>
+    <div class="flex flex-wrap justify-between w-full">
+      <div class="flex flex-col">
+        <div *ngFor="let category of selectedCategories">
+          - {{ category }}
+        </div>
+      </div>
+      <div class="ml-auto">
+        <img [src]="formData.imageLink" class="w-36 h-36 object-contain">
+      </div>
+    </div>
     
+
+    <div class="flex flex-wrap gap-1">
+      <button mat-raised-button
+              class="bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded"
+              (click)="toggleCategory('Discount')"
+              [class.bg-gray-700]="selectedCategories.includes('Discount')">
+        Discount
+      </button>
+      <button mat-raised-button
+              class="bg-gray-500 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+              (click)="toggleCategory('Trended🔥')"
+              [class.bg-gray-700]="selectedCategories.includes('Trended🔥')">
+        Trended🔥
+      </button>
+      <button mat-raised-button
+              class="bg-gray-500 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+              (click)="toggleCategory('NEW❗')"
+              [class.bg-gray-700]="selectedCategories.includes('NEW❗')">
+        NEW❗
+      </button>
+      <button mat-raised-button
+              class="bg-gray-500 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+              (click)="toggleCategory('Best Seller')"
+              [class.bg-gray-700]="selectedCategories.includes('Best Seller')">
+        Best Seller
+      </button>
+      <button mat-raised-button
+              class="bg-gray-500 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+              (click)="toggleCategory('Best price-performance-offer')"
+              [class.bg-gray-700]="selectedCategories.includes('Best price-performance-offer')">
+        Best price-performance-offer
+      </button>
+    </div>
+
+    <hr class="my-2">
+
     <div class="d-flex justify-between w-full">
       <button mat-raised-button color="primary" type="submit" class="mx-10 py-1" (click)="saveChanges()">Save changes</button>
       <button mat-raised-button color="warn" type="button" class="mx-10 py-1" (click)="discardChanges()">Discard</button>
     </div>
   </form>
 </mat-dialog-content>
-
 
 <!-- <h1>test</h1> -->

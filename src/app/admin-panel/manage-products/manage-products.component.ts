@@ -10,11 +10,14 @@ import {
   MatDialogRef
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { concatAll, first } from 'rxjs';
+import { ApiService } from '../../api.service';
 
 
 type Product = {
@@ -28,17 +31,14 @@ type Product = {
   discount: number;
 }
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
-}
-
 @Component({
   selector: 'app-manage-products',
   standalone: true,
   imports: [
     CommonModule,
     MatProgressSpinner,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule
   ],
   templateUrl: './manage-products.component.html',
   styleUrl: './manage-products.component.css'
@@ -49,7 +49,9 @@ export class ManageProductsComponent {
 
   constructor(
     private productService: ProductsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private apiService: ApiService
   ) {
     setTimeout(() => {
       this.products = this.productService.getProducts();
@@ -57,8 +59,28 @@ export class ManageProductsComponent {
     }, 1000);
   }
 
-  public deleteProduct(_t17: Product) {
-    throw new Error('Method not implemented.');
+  private httpRequestForDeletion(product: Product): void {
+    this.apiService.removeSpecificProductFromDataBase(product.id, product.name).subscribe()
+  }
+
+  public deleteProduct(product: Product) {
+    const snackBarRef = this.snackBar.open('Deleting product...', 'Undo');
+    let isClicked = false;
+
+    snackBarRef.onAction().subscribe(() => {
+      isClicked = true;
+    });
+
+    setTimeout(() => {
+      snackBarRef.dismiss();
+      if (!isClicked) {
+        this.httpRequestForDeletion(product);
+        const snackBarRef = this.snackBar.open('Successfully deleted!');
+        setTimeout(() => {
+          snackBarRef.dismiss();
+        }, 1500)
+      }
+    }, 5000);
   }
     
   public editProduct(product: Product) {
@@ -93,7 +115,7 @@ export class DialogDataExampleDialog {
     name: '',
     description: '',
     imageLink: '',
-    category: '',
+    category: [] as string[],
     productLink: '',
     amount: 0,
     discount: 0
@@ -101,13 +123,17 @@ export class DialogDataExampleDialog {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {product: Product},
-    public dialogRef: MatDialogRef<DialogDataExampleDialog>
+    public dialogRef: MatDialogRef<DialogDataExampleDialog>,
+    private snackbar: MatSnackBar
     ) {
       if (data.product) {
         this.formData.name = data.product.name;
         this.formData.description = data.product.description;
         this.formData.imageLink = data.product.img;
-        this.formData.category = data.product.categories[0];
+        for (let category of data.product.categories) {
+          this.formData.category.push(category);
+          this.selectedCategories.push(category);
+        }
         this.formData.productLink = data.product.link;
         this.formData.amount = data.product.price;
         this.formData.discount = data.product.discount;
@@ -119,18 +145,52 @@ export class DialogDataExampleDialog {
   }
 
   public saveChanges() {
-    console.log(this.checkTheFormData());
+    this.checkTheFormData();
   }
 
-  public checkTheFormData(): boolean {
+  public checkTheFormData(): boolean | void {
     if (
       this.formData.name === '' || this.formData.description === '' || 
-      this.formData.category === '' || this.formData.productLink === '' || 
+      this.formData.category.length === 0 || this.formData.productLink === '' || 
       this.formData.amount === 0
       ) {
-      return false;
+        return false;
     } else {
-      return true;
+      this.dialogRef.close();
+      let asw = this.snackBarChange('Saving changes...', 'Successfully saved!');
+      console.log(asw);
+    }
+  }
+
+  private snackBarChange(
+    firstMessage: string,
+    secondMessage: string,
+  ): boolean | void {
+    let isClicked = false;
+
+    const snackbar = this.snackbar.open(firstMessage, 'Undo');
+    snackbar.onAction().subscribe(() => {isClicked = true});
+    setTimeout(() => {
+      snackbar.dismiss();
+      if (!isClicked) {
+        const snackBarRef = this.snackbar.open(secondMessage);
+        setTimeout(() => {
+          snackBarRef.dismiss();
+        }, 1500)
+        return true;
+      } else {
+        return false;
+      }
+    }, 5000);
+  }
+
+  selectedCategories: string[] = [];
+
+  public toggleCategory(category: string): void {
+    if (this.selectedCategories.includes(category)) {
+      this.selectedCategories = this.selectedCategories.filter(cat => cat !== category);
+    } else {
+      this.selectedCategories.push(category);
     }
   }
 }

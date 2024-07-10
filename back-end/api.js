@@ -122,6 +122,28 @@ app.get('/api/getUserActivityLog/', async (req, res) => {
   }
 });
 
+app.delete('/api/deleteSpecificProductFromDatabase/', async (req, res) => {
+  try {
+    const { id, name } = req.query;
+    const database = client.db('savespehere');
+    const collection = database.collection('products');
+    const result = await collection.deleteOne({ id: parseInt(id), name: name });
+
+    if (result.deletedCount === 1) {
+      res.status(200).send('Product successfully deleted');
+    } else {
+      res.status(404).send('Product not found');
+    }
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed deleteSpecificProductFromDatabase route!`);
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).send('Error deleting product');
+  }
+});
+
+
 
 // app.get('/api/insertProducts/', async (req, res) => {
 //   return; // Disable this route to prevent inserting products into database
