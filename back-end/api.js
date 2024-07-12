@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt');
+const { async } = require('rxjs');
 
 const uri = "mongodb+srv://olusmain:paR0r7oIQ82eM9PI@cluster0.ztby1wg.mongodb.net/?retryWrites=true&w=majority";
 
@@ -17,7 +18,7 @@ const client = new MongoClient(uri, {
 
 const corsOptions = {
   origin: '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 };
 
@@ -142,6 +143,28 @@ app.delete('/api/deleteSpecificProductFromDatabase/', async (req, res) => {
     res.status(500).send('Error deleting product');
   }
 });
+
+app.put('/api/editSpecificProductInDatabase/', async (req, res) => {
+  try {
+    const originalProduct = req.body.original;
+    const editedProduct = req.body.edited;
+
+    const database = client.db('savespehere');
+    const collection = database.collection('products');
+    
+    // const result = await collection.updateOne({ id: originalProduct.id, name: originalProduct.name }, { $set: editedProduct });
+    const originalProductFromDB = await collection.findOne({ id: originalProduct.id, name: originalProduct.name });
+    if (!originalProductFromDB) {return res.status(404).json({ error: 'Originalprodukt nicht gefunden' })}
+    console.log('originalProductFromDB:', originalProductFromDB);
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed editSpecificProductInDatabase route!`);
+  } catch (error) {
+    console.error('Error handling PUT request:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 
 

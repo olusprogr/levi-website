@@ -23,13 +23,13 @@
       <div class="flex-1" style="width: 48%;">
         <mat-form-field class="w-full">
           <mat-label>Image link</mat-label>
-          <textarea matInput name="imageLink" [(ngModel)]="formData.imageLink"></textarea>
+          <textarea matInput name="imageLink" [(ngModel)]="formData.img"></textarea>
         </mat-form-field>
       </div>
       <div class="mb-1 flex-1" style="width: 48%;">
         <mat-form-field class="w-full">
           <mat-label>Product link</mat-label>
-          <textarea matInput name="productLink" [(ngModel)]="formData.productLink" required></textarea>
+          <textarea matInput name="productLink" [(ngModel)]="formData.link" required></textarea>
         </mat-form-field>
       </div>
     </div>
@@ -38,7 +38,7 @@
       <div class="flex-1" style="width: 48%;">
         <mat-form-field class="w-full" floatLabel="always">
           <mat-label>Amount</mat-label>
-          <input matInput name="amount" [(ngModel)]="formData.amount" required>
+          <input matInput name="amount" [(ngModel)]="formData.price" required>
         </mat-form-field>
       </div>
       <div class="flex-1" style="width: 48%;">
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="ml-auto">
-        <img [src]="formData.imageLink" class="w-36 h-36 object-contain">
+        <img [src]="formData.img" class="w-36 h-36 object-contain">
       </div>
     </div>
     

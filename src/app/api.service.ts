@@ -67,7 +67,7 @@ export class ApiService {
     name: string,
   ): Observable<any> {
     console.log('Called deleteSpecificProductFromDatabase()', id, name);
-    const url = `${this.localURL}/deleteSpecificProductFromDatabase/`;
+    const url = `${this.baseURL}/deleteSpecificProductFromDatabase/`;
 
     const options = {
       params: new HttpParams().set('id', id.toString()).set('name', name)
@@ -75,6 +75,22 @@ export class ApiService {
 
     const primaryAPI = this.http.delete<any>(url, options);
     const secondaryAPI = this.http.delete<any>(url, options);
+    return race(primaryAPI, secondaryAPI) as Observable<any[]>;
+  }
+
+  public editSpecificProductInDataBase(
+    updatedProduct: any,
+    originalProduct: any
+    ) {
+    const url = `${this.localURL}/editSpecificProductInDatabase/`;
+
+    const requestPayload = {
+      original: originalProduct,
+      updated: updatedProduct
+    };
+
+    const primaryAPI = this.http.put<any>(url, requestPayload);
+    const secondaryAPI = this.http.put<any>(this.baseURL, requestPayload);
     return race(primaryAPI, secondaryAPI) as Observable<any[]>;
   }
 }

@@ -16,7 +16,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { concatAll, first } from 'rxjs';
 import { ApiService } from '../../api.service';
 
 
@@ -94,6 +93,7 @@ export class ManageProductsComponent {
   }
 }
 
+
 @Component({
   selector: 'dialog-data-example-dialog',
   templateUrl: 'dialog-data-example.html',
@@ -108,83 +108,81 @@ export class ManageProductsComponent {
     MatButtonModule,
     CommonModule,
     FormsModule
-    ],
+  ],
 })
 export class DialogDataExampleDialog {
-  formData = {
+  public selectedCategories: string[] = [];
+  public formData = {
+    id: 0,
     name: '',
     description: '',
-    imageLink: '',
-    category: [] as string[],
-    productLink: '',
-    amount: 0,
+    img: '',
+    categories: [] as string[],
+    link: '',
+    price: 0,
     discount: 0
   };
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {product: Product},
+    @Inject(MAT_DIALOG_DATA) public data: { product: Product },
     public dialogRef: MatDialogRef<DialogDataExampleDialog>,
-    private snackbar: MatSnackBar
-    ) {
-      if (data.product) {
-        this.formData.name = data.product.name;
-        this.formData.description = data.product.description;
-        this.formData.imageLink = data.product.img;
-        for (let category of data.product.categories) {
-          this.formData.category.push(category);
-          this.selectedCategories.push(category);
-        }
-        this.formData.productLink = data.product.link;
-        this.formData.amount = data.product.price;
-        this.formData.discount = data.product.discount;
+    private snackbar: MatSnackBar,
+    private apiService: ApiService
+  ) {
+    if (data.product) {
+      this.formData.id = data.product.id;
+      this.formData.name = data.product.name;
+      this.formData.description = data.product.description;
+      this.formData.img = data.product.img;
+      for (let category of data.product.categories) {
+        this.formData.categories.push(category);
+        this.selectedCategories.push(category);
       }
+      this.formData.link = data.product.link;
+      this.formData.price = data.product.price;
+      this.formData.discount = data.product.discount;
+      console.log(this.formData.price, this.formData.discount)
     }
+  }
 
-  public discardChanges() {
+  public discardChanges(): void {
     this.dialogRef.close();
   }
 
-  public saveChanges() {
-    this.checkTheFormData();
-  }
+  public saveChanges(): void {
+    if (!this.checkFormData()) {return}
+    let filteredObj = Object.assign({}, this.data.product);
+    // keep going here!!!
 
-  public checkTheFormData(): boolean | void {
-    if (
-      this.formData.name === '' || this.formData.description === '' || 
-      this.formData.category.length === 0 || this.formData.productLink === '' || 
-      this.formData.amount === 0
-      ) {
-        return false;
-    } else {
-      this.dialogRef.close();
-      let asw = this.snackBarChange('Saving changes...', 'Successfully saved!');
-      console.log(asw);
-    }
-  }
+    if (this.formData === this.data.product) {return}
 
-  private snackBarChange(
-    firstMessage: string,
-    secondMessage: string,
-  ): boolean | void {
+    this.dialogRef.close();
+    const snackBarRef = this.snackbar.open('Editing product...', 'Undo');
     let isClicked = false;
 
-    const snackbar = this.snackbar.open(firstMessage, 'Undo');
-    snackbar.onAction().subscribe(() => {isClicked = true});
+    snackBarRef.onAction().subscribe(() => {
+      snackBarRef.dismiss();
+      isClicked = true;
+    });
+
     setTimeout(() => {
-      snackbar.dismiss();
       if (!isClicked) {
-        const snackBarRef = this.snackbar.open(secondMessage);
-        setTimeout(() => {
-          snackBarRef.dismiss();
-        }, 1500)
-        return true;
-      } else {
-        return false;
+        console.log('Editing product...');
+        this.httpRequestForEditing(this.data.product, this.formData);
+        this.snackbar.open('Successfully edited!', '', { duration: 1000 });
       }
     }, 5000);
   }
 
-  selectedCategories: string[] = [];
+  private checkFormData(): boolean {
+    const { name, description, categories, link, price } = this.formData;
+    if (!name || !description || !categories || !link || !price) {return false}
+    return true;
+  }
+
+  private httpRequestForEditing(originalProduct: Product, updatedProduct: Product): void {
+    this.apiService.editSpecificProductInDataBase(originalProduct, updatedProduct).subscribe();
+  }
 
   public toggleCategory(category: string): void {
     if (this.selectedCategories.includes(category)) {
