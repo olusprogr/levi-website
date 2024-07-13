@@ -2,6 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, race } from 'rxjs';
 
+type Product = {
+  id: number;
+  name: string;
+  description: string;
+  img: string;
+  categories: string[];
+  link: string;
+  price: number;
+  discount: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,22 +24,27 @@ export class ApiService {
   constructor(
     private http: HttpClient,
   ) {
+    // this.baseURL = this.localURL
+    // this.secondURL = this.localURL
   }
 
-  public requestProductsFromAPI(path: string = '/getProducts/'): Observable<any[]> {
+  public requestProductsFromAPI(): Observable<Product[]> {
+    const path: string = '/getProducts/'
+
     const primaryAPI = this.http.get<any[]>(this.baseURL + path)
     const secondaryAPI = this.http.get<any[]>(this.secondURL + path)
-    return race(primaryAPI, secondaryAPI) as Observable<any[]>
+    return race(primaryAPI, secondaryAPI) as Observable<Product[]>
   }
 
   public checkLoginCredentials(
-    path: string = '/checkLoginCredentials/',
     fullname: string = ' ',
     password: string = ' '
-  ): Observable<any> {
+  ): Observable<boolean> {
+    const path: string = '/checkLoginCredentials/';
+
     const primaryAPI = this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
     const secondaryAPI = this.http.get<any>(`${this.secondURL}${path}${fullname}/${password}`);
-    return race(primaryAPI, secondaryAPI) as Observable<any[]>;
+    return race(primaryAPI, secondaryAPI) as Observable<boolean>;
   }
 
   public addUserActivityToLog(path: string): Observable<any> {
@@ -36,8 +52,7 @@ export class ApiService {
     const data = { route: path, date: this.getCurrentTimeDE() };
 
     const primaryAPI = this.http.post<any>(url, data);
-    const secondaryAPI = this.http.post<any>(url, data);
-    return race(primaryAPI, secondaryAPI) as Observable<any[]>
+    return primaryAPI;
   }
 
   private getCurrentTimeDE(): string {
@@ -66,31 +81,30 @@ export class ApiService {
     id: number,
     name: string,
   ): Observable<any> {
-    console.log('Called deleteSpecificProductFromDatabase()', id, name);
     const url = `${this.baseURL}/deleteSpecificProductFromDatabase/`;
+    const url2 = `${this.secondURL}/deleteSpecificProductFromDatabase/`;
 
     const options = {
       params: new HttpParams().set('id', id.toString()).set('name', name)
     };
 
     const primaryAPI = this.http.delete<any>(url, options);
-    const secondaryAPI = this.http.delete<any>(url, options);
-    return race(primaryAPI, secondaryAPI) as Observable<any[]>;
+    const secondaryAPI = this.http.delete<any>(url2, options);
+    return race(primaryAPI, secondaryAPI) as Observable<any>;
   }
 
   public editSpecificProductInDataBase(
     updatedProduct: any,
     originalProduct: any
-    ) {
-    const url = `${this.localURL}/editSpecificProductInDatabase/`;
+    ): Observable<void> {
+    const url = `${this.baseURL}/editSpecificProductInDatabase/`;
 
     const requestPayload = {
       original: originalProduct,
       updated: updatedProduct
     };
 
-    const primaryAPI = this.http.put<any>(url, requestPayload);
-    const secondaryAPI = this.http.put<any>(this.baseURL, requestPayload);
-    return race(primaryAPI, secondaryAPI) as Observable<any[]>;
+    const primaryAPI = this.http.put<void>(url, requestPayload);
+    return primaryAPI;
   }
 }

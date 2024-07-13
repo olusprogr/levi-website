@@ -4,7 +4,6 @@ const app = express();
 const port = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt');
-const { async } = require('rxjs');
 
 const uri = "mongodb+srv://olusmain:paR0r7oIQ82eM9PI@cluster0.ztby1wg.mongodb.net/?retryWrites=true&w=majority";
 
@@ -55,7 +54,7 @@ app.get('/api/getProducts/', async (req, res) => {
   try {
     const database = client.db('savespehere');
     const collection = database.collection('products');
-    const cursor = collection.find({});
+    const cursor = collection.find({}, { projection: { _id: 0 } });
     const results = await cursor.toArray();
     res.send(results);
     apiExecutionsInTotal++;
@@ -147,15 +146,15 @@ app.delete('/api/deleteSpecificProductFromDatabase/', async (req, res) => {
 app.put('/api/editSpecificProductInDatabase/', async (req, res) => {
   try {
     const originalProduct = req.body.original;
-    const editedProduct = req.body.edited;
+    const editedProduct = req.body.updated;
 
     const database = client.db('savespehere');
     const collection = database.collection('products');
     
-    // const result = await collection.updateOne({ id: originalProduct.id, name: originalProduct.name }, { $set: editedProduct });
     const originalProductFromDB = await collection.findOne({ id: originalProduct.id, name: originalProduct.name });
     if (!originalProductFromDB) {return res.status(404).json({ error: 'Originalprodukt nicht gefunden' })}
-    console.log('originalProductFromDB:', originalProductFromDB);
+
+    await collection.updateOne({ id: originalProduct.id, name: originalProduct.name }, { $set: editedProduct });
 
     apiExecutionsInTotal++;
     console.log(`[${apiExecutionsInTotal}] Executed editSpecificProductInDatabase route!`);

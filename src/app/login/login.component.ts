@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,21 +26,17 @@ export class LoginComponent implements AfterViewInit{
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private scrollContainer: ElementRef
   ) {
     this.checkIfDataIsCorrect();
   }
+  
   ngAfterViewInit(): void {
     this.apiService.addUserActivityToLog('/home/search').subscribe();
     window.scrollTo(0, 0);
   }
 
-  private scrollToTop(): void {
-    this.scrollContainer.nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
   public login() {
-    this.apiService.checkLoginCredentials('/checkLoginCredentials/', this.fullname, this.password).subscribe((response) => {
+    this.apiService.checkLoginCredentials(this.fullname, this.password).subscribe((response) => {
       this.isLoginDataCorrect = response
     });
   }
@@ -49,7 +45,6 @@ export class LoginComponent implements AfterViewInit{
     while (true) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (this.isLoginDataCorrect) {
-      
         this.router.navigate(['/home/admin-panel/', this.fullname]);
       }
     }

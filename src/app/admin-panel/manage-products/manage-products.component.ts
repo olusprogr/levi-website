@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ProductsService } from '../../products.service';
 import {
@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import _isEqual from 'lodash/isEqual';
 import { ApiService } from '../../api.service';
 
 
@@ -42,7 +43,7 @@ type Product = {
   templateUrl: './manage-products.component.html',
   styleUrl: './manage-products.component.css'
 })
-export class ManageProductsComponent {
+export class ManageProductsComponent implements OnInit {
   public isLoaded: boolean = false;
   public products: Product[] = [];
 
@@ -51,11 +52,27 @@ export class ManageProductsComponent {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private apiService: ApiService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  private async loadProducts(): Promise<void> {
     setTimeout(() => {
       this.products = this.productService.getProducts();
       if (this.products.length > 0) {this.isLoaded = true}
-    }, 1000);
+    }, 500);
+    if (!this.isLoaded) {
+      while (true) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        this.products = this.productService.getProducts();
+        if (this.products.length > 0) {
+          this.isLoaded = true;
+          break;
+        }
+      }
+    }
   }
 
   private httpRequestForDeletion(product: Product): void {
@@ -74,10 +91,7 @@ export class ManageProductsComponent {
       snackBarRef.dismiss();
       if (!isClicked) {
         this.httpRequestForDeletion(product);
-        const snackBarRef = this.snackBar.open('Successfully deleted!');
-        setTimeout(() => {
-          snackBarRef.dismiss();
-        }, 1500)
+        const snackBarRef = this.snackBar.open('Successfully deleted!', undefined, { duration: 1000 });
       }
     }, 5000);
   }
@@ -141,7 +155,6 @@ export class DialogDataExampleDialog {
       this.formData.link = data.product.link;
       this.formData.price = data.product.price;
       this.formData.discount = data.product.discount;
-      console.log(this.formData.price, this.formData.discount)
     }
   }
 
@@ -151,10 +164,10 @@ export class DialogDataExampleDialog {
 
   public saveChanges(): void {
     if (!this.checkFormData()) {return}
-    let filteredObj = Object.assign({}, this.data.product);
-    // keep going here!!!
-
-    if (this.formData === this.data.product) {return}
+    if (_isEqual(this.formData, this.data.product)) {
+      this.snackbar.open('No changes were made!', undefined, { duration: 1500 });
+      return;
+    }
 
     this.dialogRef.close();
     const snackBarRef = this.snackbar.open('Editing product...', 'Undo');
@@ -168,7 +181,7 @@ export class DialogDataExampleDialog {
     setTimeout(() => {
       if (!isClicked) {
         console.log('Editing product...');
-        this.httpRequestForEditing(this.data.product, this.formData);
+        this.httpRequestForEditing(this.formData, this.data.product);
         this.snackbar.open('Successfully edited!', '', { duration: 1000 });
       }
     }, 5000);
