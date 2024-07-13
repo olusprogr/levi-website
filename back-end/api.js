@@ -154,7 +154,10 @@ app.put('/api/editSpecificProductInDatabase/', async (req, res) => {
     const originalProductFromDB = await collection.findOne({ id: originalProduct.id, name: originalProduct.name });
     if (!originalProductFromDB) {return res.status(404).json({ error: 'Originalprodukt nicht gefunden' })}
 
-    await collection.updateOne({ id: originalProduct.id, name: originalProduct.name }, { $set: editedProduct });
+    let asw = await collection.updateOne({ id: originalProduct.id, name: originalProduct.name }, { $set: editedProduct });
+    if (asw.modifiedCount === 1) {
+      res.status(200).json({ success: 'Produkt erfolgreich bearbeitet' });
+    }
 
     apiExecutionsInTotal++;
     console.log(`[${apiExecutionsInTotal}] Executed editSpecificProductInDatabase route!`);

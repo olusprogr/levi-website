@@ -24,7 +24,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
   ) {
-    // this.baseURL = this.localURL
+    this.baseURL = this.localURL
     // this.secondURL = this.localURL
   }
 
@@ -96,7 +96,7 @@ export class ApiService {
   public editSpecificProductInDataBase(
     updatedProduct: any,
     originalProduct: any
-    ): Observable<void> {
+    ): Observable<any> {
     const url = `${this.baseURL}/editSpecificProductInDatabase/`;
 
     const requestPayload = {
@@ -104,7 +104,6 @@ export class ApiService {
       updated: updatedProduct
     };
 
-    const primaryAPI = this.http.put<void>(url, requestPayload);
-    return primaryAPI;
+    return this.http.put<any>(url, requestPayload);
   }
 }

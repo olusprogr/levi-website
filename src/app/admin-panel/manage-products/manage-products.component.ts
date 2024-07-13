@@ -92,6 +92,7 @@ export class ManageProductsComponent implements OnInit {
       if (!isClicked) {
         this.httpRequestForDeletion(product);
         const snackBarRef = this.snackBar.open('Successfully deleted!', undefined, { duration: 1000 });
+        window.location.reload();
       }
     }, 5000);
   }
@@ -180,9 +181,18 @@ export class DialogDataExampleDialog {
 
     setTimeout(() => {
       if (!isClicked) {
-        console.log('Editing product...');
-        this.httpRequestForEditing(this.formData, this.data.product);
-        this.snackbar.open('Successfully edited!', '', { duration: 1000 });
+        this.apiService.editSpecificProductInDataBase(this.formData, this.data.product).subscribe(
+          (response) => {
+            console.log(response);
+            if (response.success) {
+              this.snackbar.open('Successfully edited!', undefined, { duration: 1000 });
+              window.location.reload();
+            }
+          },
+          (error) => {
+            this.snackbar.open('Error editing product!', undefined, { duration: 1000 });
+          }
+        )
       }
     }, 5000);
   }
@@ -191,10 +201,6 @@ export class DialogDataExampleDialog {
     const { name, description, categories, link, price } = this.formData;
     if (!name || !description || !categories || !link || !price) {return false}
     return true;
-  }
-
-  private httpRequestForEditing(originalProduct: Product, updatedProduct: Product): void {
-    this.apiService.editSpecificProductInDataBase(originalProduct, updatedProduct).subscribe();
   }
 
   public toggleCategory(category: string): void {
