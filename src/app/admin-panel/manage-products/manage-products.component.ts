@@ -1,23 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ProductsService } from '../../products.service';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogRef
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import _isEqual from 'lodash/isEqual';
 import { ApiService } from '../../api.service';
+import { DialogDataAddDialog } from './dialog-data-add';
+import { DialogDataEditDialog } from './dialog-data-edit';
 
 
 type Product = {
@@ -76,7 +67,12 @@ export class ManageProductsComponent implements OnInit {
   }
 
   private httpRequestForDeletion(product: Product): void {
-    this.apiService.removeSpecificProductFromDataBase(product.id, product.name).subscribe()
+    this.apiService.removeSpecificProductFromDataBase(product.id, product.name).subscribe(
+      () => {
+        this.snackBar.open('Successfully deleted!', undefined, { duration: 1000 });
+        window.location.reload();
+      }
+    )
   }
 
   public deleteProduct(product: Product) {
@@ -89,12 +85,7 @@ export class ManageProductsComponent implements OnInit {
 
     setTimeout(() => {
       snackBarRef.dismiss();
-      if (!isClicked) {
-        this.httpRequestForDeletion(product);
-        const snackBarRef = this.snackBar.open('Successfully deleted!', undefined, { duration: 1000 });
-        window.location.reload();
-      }
-    }, 5000);
+      if (!isClicked) {this.httpRequestForDeletion(product)}}, 5000);
   }
     
   public editProduct(product: Product) {
@@ -102,112 +93,27 @@ export class ManageProductsComponent implements OnInit {
   }
 
   public openDialog(product: Product): void {
-    this.dialog.open(DialogDataExampleDialog, {
+    this.dialog.open(DialogDataEditDialog, {
+      data: { product: product}
+    });
+  }
+
+  public addProduct(): void {
+    const product = {
+      id: 0,
+      name: '',
+      description: '',
+      img: '',
+      categories: [],
+      link: '',
+      price: 0,
+      discount: 0
+    };
+
+    this.dialog.open(DialogDataAddDialog, {
       data: { product: product}
     });
   }
 }
 
 
-@Component({
-  selector: 'dialog-data-example-dialog',
-  templateUrl: 'dialog-data-example.html',
-  standalone: true,
-  imports: [
-    MatDialogTitle, 
-    MatDialogContent,
-    MatSelectModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    CommonModule,
-    FormsModule
-  ],
-})
-export class DialogDataExampleDialog {
-  public selectedCategories: string[] = [];
-  public formData = {
-    id: 0,
-    name: '',
-    description: '',
-    img: '',
-    categories: [] as string[],
-    link: '',
-    price: 0,
-    discount: 0
-  };
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { product: Product },
-    public dialogRef: MatDialogRef<DialogDataExampleDialog>,
-    private snackbar: MatSnackBar,
-    private apiService: ApiService
-  ) {
-    if (data.product) {
-      this.formData.id = data.product.id;
-      this.formData.name = data.product.name;
-      this.formData.description = data.product.description;
-      this.formData.img = data.product.img;
-      for (let category of data.product.categories) {
-        this.formData.categories.push(category);
-        this.selectedCategories.push(category);
-      }
-      this.formData.link = data.product.link;
-      this.formData.price = data.product.price;
-      this.formData.discount = data.product.discount;
-    }
-  }
-
-  public discardChanges(): void {
-    this.dialogRef.close();
-  }
-
-  public saveChanges(): void {
-    if (!this.checkFormData()) {return}
-    if (_isEqual(this.formData, this.data.product)) {
-      this.snackbar.open('No changes were made!', undefined, { duration: 1500 });
-      return;
-    }
-
-    this.dialogRef.close();
-    const snackBarRef = this.snackbar.open('Editing product...', 'Undo');
-    let isClicked = false;
-
-    snackBarRef.onAction().subscribe(() => {
-      snackBarRef.dismiss();
-      isClicked = true;
-    });
-
-    setTimeout(() => {
-      if (!isClicked) {
-        this.apiService.editSpecificProductInDataBase(this.formData, this.data.product).subscribe(
-          (response) => {
-            console.log(response);
-            if (response.success) {
-              this.snackbar.open('Successfully edited!', undefined, { duration: 1000 });
-              window.location.reload();
-            }
-          },
-          (error) => {
-            this.snackbar.open('Error editing product!', undefined, { duration: 1000 });
-          }
-        )
-      }
-    }, 5000);
-  }
-
-  private checkFormData(): boolean {
-    const { name, description, categories, link, price } = this.formData;
-    if (!name || !description || !categories || !link || !price) {return false}
-    return true;
-  }
-
-  public toggleCategory(category: string): void {
-    if (this.selectedCategories.includes(category)) {
-      this.selectedCategories = this.selectedCategories.filter(cat => cat !== category);
-    } else {
-      this.selectedCategories.push(category);
-    }
-  }
-}

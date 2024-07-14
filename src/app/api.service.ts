@@ -106,4 +106,9 @@ export class ApiService {
 
     return this.http.put<any>(url, requestPayload);
   }
+
+  public addProductToDataBase(product: Product): Observable<any> {
+    const url = `${this.localURL}/addProductToDatabase/`;
+    return this.http.post<any>(url, product);
+  }
 }

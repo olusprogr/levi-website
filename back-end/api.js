@@ -170,16 +170,27 @@ app.put('/api/editSpecificProductInDatabase/', async (req, res) => {
 
 
 
-// app.get('/api/insertProducts/', async (req, res) => {
-//   return; // Disable this route to prevent inserting products into database
-//   try {
-//     console.log('Inserting products into database...');
-//     const database = client.db('savespehere');
-//     const collection = database.collection('products');
-//     const results = await collection.insertMany(projects);
-//     res.send(results);
-//   } catch(error) {
-//     console.log('Error inserting products into database.');
-//     res.send({'error': 'Error inserting products into database.'});
-//   }
-// });
+app.post('/api/addProductToDatabase/', async (req, res) => {
+  try {
+    const product = req.body;
+    const database = client.db('savespehere');
+    const collection = database.collection('products');
+
+    const maxProduct = await collection.findOne({}, { sort: { id: -1 } });
+
+    let nextProductId;
+    if (maxProduct) {
+      nextProductId = maxProduct.id + 1;
+    } else {nextProductId = 1}
+
+    const result = await collection.insertOne({ ...product, id: nextProductId });
+
+    res.send(result);
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed addProductToDatabase route!`);
+  } catch(error) {
+    console.log('Error inserting products into database.');
+    res.send({'error': 'Error inserting products into database.'});
+  }
+});
