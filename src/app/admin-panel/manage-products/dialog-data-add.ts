@@ -82,6 +82,7 @@ type Product = {
           this.snackbar.open('Product added successfully', 'Close', { duration: 3000 })
         });
         this.dialogRef.close();
+        setTimeout(() => {window.location.reload()}, 3000);
       }
     }
   

@@ -66,15 +66,6 @@ export class ManageProductsComponent implements OnInit {
     }
   }
 
-  private httpRequestForDeletion(product: Product): void {
-    this.apiService.removeSpecificProductFromDataBase(product.id, product.name).subscribe(
-      () => {
-        this.snackBar.open('Successfully deleted!', undefined, { duration: 1000 });
-        window.location.reload();
-      }
-    )
-  }
-
   public deleteProduct(product: Product) {
     const snackBarRef = this.snackBar.open('Deleting product...', 'Undo');
     let isClicked = false;
@@ -83,9 +74,21 @@ export class ManageProductsComponent implements OnInit {
       isClicked = true;
     });
 
-    setTimeout(() => {
-      snackBarRef.dismiss();
-      if (!isClicked) {this.httpRequestForDeletion(product)}}, 5000);
+      setTimeout(() => {
+        if (!isClicked) {
+          this.apiService.removeSpecificProductFromDataBase(product.id, product.name).subscribe(
+            (response) => {
+              if (response.success) {
+                this.snackBar.open('Successfully removed!', undefined, { duration: 1000 });
+                setTimeout(() => {window.location.reload()}, 1000);
+              }
+            },
+            (error) => {
+              this.snackBar.open('Error removing product!', undefined, { duration: 2000 });
+            }
+          )
+        }
+      }, 5000);
   }
     
   public editProduct(product: Product) {

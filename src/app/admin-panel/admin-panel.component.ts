@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-panel',
@@ -18,6 +20,8 @@ export class AdminPanelComponent {
 
   constructor(
     private router: Router,
+    private apiService: ApiService,
+    private snackBar: MatSnackBar,
   ) {}
 
   public refreshCurrentWebsite() {
@@ -25,7 +29,8 @@ export class AdminPanelComponent {
   }
 
   public triggerDeploy() {
-    window.open('https://api.render.com/deploy/srv-cpv3d6tumphs73c4u5j0?key=y_z5xJiMmcw', '_blank');
+    this.apiService.requestWebsiteReboot().subscribe()
+    this.snackBar.open('Website is being rebooted...', 'Close', {duration: 3000});
   }
 
   public enterAIChat() {

@@ -24,7 +24,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
   ) {
-    // this.baseURL = this.localURL
+    this.baseURL = this.localURL
     // this.secondURL = this.localURL
   }
 
@@ -110,5 +110,10 @@ export class ApiService {
   public addProductToDataBase(product: Product): Observable<any> {
     const url = `${this.baseURL}/addProductToDatabase/`;
     return this.http.post<any>(url, product);
+  }
+
+  public requestWebsiteReboot(): Observable<any> {
+    const url = 'https://api.render.com/deploy/srv-cpv3d6tumphs73c4u5j0?key=y_z5xJiMmcw';
+    return this.http.get<any>(url);
   }
 }

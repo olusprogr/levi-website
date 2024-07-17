@@ -45,8 +45,15 @@ export class StartComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
     private api: ApiService
-  ) {
-    this.requestDataFromService()
+  ) {}
+
+  ngOnInit(): void {
+    // Fetching the products from the service
+    this.requestDataFromService();
+    this.updateProducts();
+    
+    // Registering the user activity to the Database
+    this.api.addUserActivityToLog('/home').subscribe();
   }
 
   private shuffleArray<T>(array: T[]): T[] {
@@ -61,6 +68,8 @@ export class StartComponent implements OnInit {
   }
   
   private async requestDataFromService() {
+    // Creating a thread to wait for the products to be fetched. Requesting the products every 100ms.
+    // If the products are fetched, shuffle the products and notify the component that the products are loaded.
     while (true) {
       await new Promise(r => setTimeout(r, 500));
       this.products = this.productsService.getProducts();
@@ -76,11 +85,6 @@ export class StartComponent implements OnInit {
   private updateProducts(): [] | void {
     this.categoryProd = [];
     this.products = this.staticProducts;
-  }
-  
-  ngOnInit(): void {
-    this.updateProducts();
-    this.api.addUserActivityToLog('/home').subscribe();
   }
 
   private checkIfProductHasCategory(category: string, productList: any[]): void {

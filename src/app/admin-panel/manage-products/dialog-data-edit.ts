@@ -108,7 +108,6 @@ type Product = {
         if (!isClicked) {
           this.apiService.editSpecificProductInDataBase(this.formData, this.data.product).subscribe(
             (response) => {
-              console.log(response);
               if (response.success) {
                 this.snackbar.open('Successfully edited!', undefined, { duration: 1000 });
                 setTimeout(() => {window.location.reload()}, 1000);

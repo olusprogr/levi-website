@@ -1,5 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
-import * as products from '../assets/products/products.json';
+import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 
 type Product = {
@@ -16,19 +15,22 @@ type Product = {
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService implements OnInit{
-
+export class ProductsService {
   private products: Product[] = [];
 
   constructor(
     private apiService: ApiService,
   ) {
-    this.requestProductsFromAPI();
-  };
+    this.requestProductsContinuously();
+  }
 
-  ngOnInit(): void {
-    // this.products = (products as any).default as Product[];
-  };
+  private async requestProductsContinuously(): Promise<void> {
+    while (true) {
+      await new Promise(r => setTimeout(r, 1000));
+      this.requestProductsFromAPI();
+      if (this.products.length > 0) {break}
+    }
+  }
 
   private requestProductsFromAPI(): void {
     this.apiService.requestProductsFromAPI().subscribe((products: Product[]) => {

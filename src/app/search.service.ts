@@ -26,10 +26,10 @@ export class SearchService {
     }
   }
 
-  // trying to request every 100miliseconds products from the service. if found, break the loop
+  // trying to request every 500miliseconds products from the service. if found, break the loop
   private async requestProducts() {
     while (true) {
-      await new Promise(r => setTimeout(r, 100));
+      await new Promise(r => setTimeout(r, 500));
       this.products = this.productService.getProducts();
       if (this.products.length !== 0) {break}
     }

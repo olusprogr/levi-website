@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt');
+const { OpenAI } = require("openai");
 
 const uri = "mongodb+srv://olusmain:paR0r7oIQ82eM9PI@cluster0.ztby1wg.mongodb.net/?retryWrites=true&w=majority";
 
@@ -13,6 +14,11 @@ const client = new MongoClient(uri, {
       strict: true,
       deprecationErrors: true,
     }
+});
+
+const openai = new OpenAI({
+  apiKey: "6b906426f6bd42c7950f309b1d8cc69c",
+  baseURL: "https://api.aimlapi.com",
 });
 
 const corsOptions = {
@@ -130,7 +136,7 @@ app.delete('/api/deleteSpecificProductFromDatabase/', async (req, res) => {
     const result = await collection.deleteOne({ id: parseInt(id), name: name });
 
     if (result.deletedCount === 1) {
-      res.status(200).send('Product successfully deleted');
+      res.status(200).json({ success: 'Product successfully deleted' });
     } else {
       res.status(404).send('Product not found');
     }
@@ -152,11 +158,11 @@ app.put('/api/editSpecificProductInDatabase/', async (req, res) => {
     const collection = database.collection('products');
     
     const originalProductFromDB = await collection.findOne({ id: originalProduct.id, name: originalProduct.name });
-    if (!originalProductFromDB) {return res.status(404).json({ error: 'Originalprodukt nicht gefunden' })}
+    if (!originalProductFromDB) {return res.status(404).json({ error: 'Original products not found.' })}
 
     let asw = await collection.updateOne({ id: originalProduct.id, name: originalProduct.name }, { $set: editedProduct });
     if (asw.modifiedCount === 1) {
-      res.status(200).json({ success: 'Produkt erfolgreich bearbeitet' });
+      res.status(200).json({ success: 'Product successfully edited.' });
     }
 
     apiExecutionsInTotal++;
@@ -166,9 +172,6 @@ app.put('/api/editSpecificProductInDatabase/', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-
-
 
 app.post('/api/addProductToDatabase/', async (req, res) => {
   try {
@@ -184,7 +187,6 @@ app.post('/api/addProductToDatabase/', async (req, res) => {
     } else {nextProductId = 1}
 
     const result = await collection.insertOne({ ...product, id: nextProductId });
-
     res.send(result);
 
     apiExecutionsInTotal++;
@@ -192,5 +194,33 @@ app.post('/api/addProductToDatabase/', async (req, res) => {
   } catch(error) {
     console.log('Error inserting products into database.');
     res.send({'error': 'Error inserting products into database.'});
+  }
+});
+
+app.get('/api/requestGPT-API/:message', async (req, res) => {
+  // Until we have a better way to handle the API key, we will disable this endpoint.
+  return res.send({'error': 'API is disabled for now.'});
+  try {
+    const msg = req.params.message;
+
+    (async () => {
+      const chatCompletion = await openai.chat.completions.create({
+        model: "mistralai/Mistral-7B-Instruct-v0.2",
+        messages: [
+          { role: "system", content: "You are a travel agent. Be descriptive and helpful" },
+          { role: "user", content: msg }
+        ],
+        temperature: 0.7,
+        max_tokens: 128,
+      });
+      console.log("AI/ML API:\n", chatCompletion.choices[0].message.content);
+    })();
+    
+
+    apiExecutionsInTotal++;
+    console.log(`[${apiExecutionsInTotal}] Executed requestGPT-API route!`);
+  } catch(error) {
+    console.log('Error fetching GPT-3 API.');
+    res.send({'error': 'Error fetching GPT-3 API.'});
   }
 });
