@@ -24,10 +24,6 @@ export class AdminPanelComponent {
     private snackBar: MatSnackBar,
   ) {}
 
-  public refreshCurrentWebsite() {
-    window.location.reload();
-  }
-
   public triggerDeploy() {
     this.apiService.requestWebsiteReboot().subscribe()
     this.snackBar.open('Website is being rebooted...', 'Close', {duration: 3000});

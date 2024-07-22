@@ -26,27 +26,19 @@ export class LoginComponent implements AfterViewInit{
   constructor(
     private apiService: ApiService,
     private router: Router,
-  ) {
-    this.checkIfDataIsCorrect();
-  }
+  ) {}
   
   ngAfterViewInit(): void {
-    this.apiService.addUserActivityToLog('/home/search').subscribe();
+    this.apiService.addUserActivityToLog('/home/login').subscribe();
     window.scrollTo(0, 0);
   }
 
   public login() {
     this.apiService.checkLoginCredentials(this.fullname, this.password).subscribe((response) => {
       this.isLoginDataCorrect = response
-    });
-  }
-
-  private async checkIfDataIsCorrect() {
-    while (true) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      if (this.isLoginDataCorrect) {
+      if (this.isLoginDataCorrect && this.fullname !== '' && this.password !== '') {
         this.router.navigate(['/home/admin-panel/', this.fullname]);
       }
-    }
+    })
   }
 }

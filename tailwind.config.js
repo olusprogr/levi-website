@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      // screens: {
+      //   'max-h-735': { 'raw': '(max-height: 735px)' },
+      // },
+    },
   },
   plugins: [],
 }

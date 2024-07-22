@@ -1,16 +1,15 @@
 <div class="d-flex justify-center flex-col mb-5 content-center text-center">
-    <h1 class="text-xl">Welcome <span class="text-2xl text-blue-600 underline">{{this.admin}}</span> to the admin panel!</h1>
-    <h1 class="text-lg text-red-600 mt-5">Note: Just reload the website if you are unable to access one of the buttons under.
-        <span (click)="this.refreshCurrentWebsite()" class="text-lg text-blue-500">Reload Here!</span>
-    </h1>
+    <h1 class="text-2xl">Welcome <span class="text-3xl text-blue-600">{{this.admin}}</span> to the admin panel!</h1>
+    <h1 class="text-md text-red-600 mt-2">Note: Just reload the website if you are unable to access one of the buttons under.</h1>
 </div>
 
 <div class="d-flex justify-center act-but mt-5 mb-5">
-    <button mat-raised-button routerLink="/home/admin-panel/test/manage-products">Manage Products</button>
-    <button mat-raised-button routerLink="/home/admin-panel/test/activity">See Activity</button>
+    <button mat-raised-button [routerLink]="['/home/admin-panel', admin, 'manage-products']">Manage Products</button>
+    <button mat-raised-button [routerLink]="['/home/admin-panel', admin, 'activity']">See Activity</button>
     <h1 class="d-flex items-center">
-        <button mat-raised-button (click)="this.enterAIChat()">Coding AI</button>
+        <button mat-raised-button disabled (click)="this.enterAIChat()">Coding AI</button>
     </h1>
+    <button mat-raised-button [routerLink]="['/home/admin-panel', admin, 'admin-news']">Admin News</button>
     <button mat-raised-button color="warn" class="bg-red-500 btn btn-danger" (click)="this.triggerDeploy()">Restart Website</button>    
 </div>
 

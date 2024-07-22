@@ -9,3 +9,9 @@ button.active {
     text-underline-offset: 4px;
     background-color: #81addc;
 }
+
+@media screen and (max-width: 737px) {
+    .img {
+        max-height: 150px;
+    }
+}

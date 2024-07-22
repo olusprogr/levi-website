@@ -24,7 +24,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
   ) {
-    this.baseURL = this.localURL
+    // this.baseURL = this.localURL
     // this.secondURL = this.localURL
   }
 

@@ -4,11 +4,15 @@
     text-decoration-thickness: 2px;
 }
 
+@media screen and (max-width: 768px) {
+    .max-h-768 {
+        display: none;
+    }
 
-
-
-
-
+    .test {
+        margin-bottom: 10px;
+    }
+}
 
 /* LOGO DESIGN */
 

@@ -10,6 +10,7 @@ import { ActivityComponent } from './admin-panel/activity/activity.component';
 import { LoginComponent } from './login/login.component';
 import { AiChatComponent } from './admin-panel/ai-chat/ai-chat.component';
 import { ManageProductsComponent } from './admin-panel/manage-products/manage-products.component';
+import { AdminNewsComponent } from './admin-panel/admin-news/admin-news.component';
 
 export const routes: Routes = [
     {
@@ -43,6 +44,9 @@ export const routes: Routes = [
             },
             {
                 path: 'manage-products', component: ManageProductsComponent, title: 'Manage Products'
+            },
+            {
+                path: 'admin-news', component: AdminNewsComponent, title: 'Admin News'
             }
         ]
     },

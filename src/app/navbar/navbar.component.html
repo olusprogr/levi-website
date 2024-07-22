@@ -1,6 +1,6 @@
 <header class="text-gray-600 body-font">
-  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-    <div class="flex justify-center title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+  <div class="container mx-auto flex flex-wrap flex-col md:flex-row items-center content-center md:mb-10">
+    <div class="flex justify-center title-font font-medium items-center text-gray-900">
       <div class="logo-container">
         <div class="logo">
             <div class="circle"></div>
@@ -13,15 +13,15 @@
         <span class="text-xl">SAVESPHERE</span>
       </div>
     </div>
-    <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+    <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center test">
       <ul class="md:ml-auto md:mr-auto flex flex-wrap text-base justify-center">
-        <li class="mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home'">Home</a></li>
+        <li class="text-lg mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home'">Home</a></li>
         <!-- <li class="mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home/products'">Products</a></li> -->
-        <li class="mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home/information'">Information</a></li>
-        <li class="mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home/about-us'">About Us</a></li>
+        <li class="text-lg mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home/information'">Information</a></li>
+        <li class="text-lg mr-5 hover:text-gray-900 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-250"><a [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/home/about-us'">About Us</a></li>
       </ul>
     </nav>
-    <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" [routerLink]="'/home/search'">Search
+    <button class="max-h-768 inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" [routerLink]="'/home/search'">Search
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="25" viewBox="0 0 50 50">
         <path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path>
       </svg>
