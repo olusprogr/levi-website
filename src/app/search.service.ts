@@ -41,11 +41,13 @@ export class SearchService {
   ): any[] | null {
     if (this.products.length === 0) {return null}
     const elementsFound = [];
+
     for (let i = 0; i < arr.length; i++) {
         if (arr[i].includes(target)) {
             elementsFound.push(i);
         }
     }
+    
     if (elementsFound.length === 0 || elementsFound === null || undefined) {
         return null
     }

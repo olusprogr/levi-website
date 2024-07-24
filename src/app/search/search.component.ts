@@ -34,7 +34,8 @@ export class SearchComponent implements AfterViewInit {
     this.inputValue = event.target.value;
     while (true) {
       await new Promise(r => setTimeout(r, 500));
-      const asw = this.searchService.searchForProduct(this.inputValue);
+      const asw = this.searchService.searchForProduct(this.inputValue.toLocaleLowerCase());
+      console.log(asw);
       if (asw != null || asw != undefined) {
         this.products = asw;
       }
