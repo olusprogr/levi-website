@@ -9,6 +9,7 @@ export interface PeriodicElement {
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {category: 'Login Issue', description: 'Fixed the bug after login that no one the buttons below are executeable.', date: '22. July 2024'},
+  {category: 'Information', description: 'Added content to the information page.', date: '28. July 2024'},
 ];
 
 
@@ -24,4 +25,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class AdminNewsComponent {
   displayedColumns: string[] = ['category', 'description', 'date'];
   dataSource = ELEMENT_DATA;
+
+  constructor() {
+    ELEMENT_DATA.reverse();
+  }
 }
