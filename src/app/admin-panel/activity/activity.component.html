@@ -1,19 +1,22 @@
-<table class="table mx-10" *ngIf="this.isLoaded">
-    <thead>
-        <tr>
-        <th scope="col">#</th>
-        <th scope="col">Path</th>
-        <th scope="col">Date (UTC+2 Berlin)</th>
-        </tr>
-    </thead>
-    <tbody class="table-group-divider">
-        <tr *ngFor="let act of this.activities; let i = index">
-        <th scope="row">{{i + 1}}</th>
-        <td>{{act.route}}</td>
-        <td>{{act.date}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="mx-4 sm:mx-12">
+    <table class="table" *ngIf="this.isLoaded">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Path</th>
+            <th scope="col">Date (UTC+2 Berlin)</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let act of this.activities; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{act.route}}</td>
+            <td>{{act.date}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 
 <div class="d-flex justify-center mt-10">
     <mat-spinner *ngIf="!this.isLoaded"></mat-spinner>

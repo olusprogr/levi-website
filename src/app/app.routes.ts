@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AiChatComponent } from './admin-panel/ai-chat/ai-chat.component';
 import { ManageProductsComponent } from './admin-panel/manage-products/manage-products.component';
 import { AdminNewsComponent } from './admin-panel/admin-news/admin-news.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 
 export const routes: Routes = [
     {
@@ -49,6 +50,9 @@ export const routes: Routes = [
                 path: 'admin-news', component: AdminNewsComponent, title: 'Admin News'
             }
         ]
+    },
+    {
+        path: 'home/disclaimer', component: DisclaimerComponent, title: 'Disclaimer'
     },
     {
         path: '**', component: ErrorComponent, title: 'Not Found'

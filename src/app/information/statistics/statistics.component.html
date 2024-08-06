@@ -1,16 +1,26 @@
-<div class="d-flex justify-center">
-  <h1 class="text-2xl ubuntu-medium-italic">Statistics:</h1>
+<div class="d-flex justify-center mt-10 sm:mt-12">
+  <h1 class="text-2xl ubuntu-medium-italic">STATISTICS:</h1>
 </div>
+
+<div class="mx-20 mt-4">
+  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700" *ngIf="!this.loadingReady">
+    <div class="bg-blue-400 text-xs font-medium text-blue-100 text-center p-0.2 leading-none rounded-full" [style.width.%]="loadingProgress">
+      {{ this.loadingProgress }}%
+    </div>
+  </div>
+</div>
+
+
 
 <section class="text-gray-600 body-font">
     <div class="container px-5 mb-24 mt-10 mx-auto">
       <div class="flex flex-wrap -m-4 text-center">
         <div class="p-4 sm:w-1/4 w-1/2">
-          <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">2.7K</h2>
+          <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">{{this.users}}</h2>
           <p class="leading-relaxed">Users</p>
         </div>
         <div class="p-4 sm:w-1/4 w-1/2">
-          <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">1.8K</h2>
+          <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">68</h2>
           <p class="leading-relaxed">Subscribes</p>
         </div>
         <div class="p-4 sm:w-1/4 w-1/2">
@@ -18,7 +28,7 @@
           <p class="leading-relaxed">Downloads</p>
         </div>
         <div class="p-4 sm:w-1/4 w-1/2">
-          <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">4</h2>
+          <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">{{this.products}}</h2>
           <p class="leading-relaxed">Products</p>
         </div>
       </div>
