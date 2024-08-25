@@ -1,0 +1,1 @@
+ssh -i "savepshere.pem" ubuntu@ec2-44-202-227-19.compute-1.amazonaws.com
