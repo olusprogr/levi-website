@@ -26,7 +26,7 @@ export class ProductsService {
 
   private async requestProductsContinuously(): Promise<void> {
     while (true) {
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 2000));
       this.requestProductsFromAPI();
       if (this.products.length > 0) {break}
     }
