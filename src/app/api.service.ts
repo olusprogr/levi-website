@@ -19,6 +19,7 @@ type Product = {
 export class ApiService {
   private baseURL: string = 'https://savesphere-backend.onrender.com/api';
   private secondURL: string = 'https://savesphere-backend-2.onrender.com/api';
+  private thirdURL: string = 'http://ec2-35-159-168-222.eu-central-1.compute.amazonaws.com:3000/api';
   private localURL: string = 'http://localhost:3000/api';
 
   
@@ -34,7 +35,8 @@ export class ApiService {
 
     const primaryAPI = this.http.get<any[]>(this.baseURL + path)
     const secondaryAPI = this.http.get<any[]>(this.secondURL + path)
-    return race(primaryAPI, secondaryAPI) as Observable<Product[]>
+    const tertiaryAPI = this.http.get<any[]>(this.thirdURL + path)
+    return race(primaryAPI, secondaryAPI, tertiaryAPI) as Observable<Product[]>
   }
 
   public checkLoginCredentials(
@@ -75,7 +77,8 @@ export class ApiService {
   public requestUserActivityLog(): Observable<any[]> {
     const primaryAPI = this.http.get<any[]>(`${this.baseURL}/getUserActivityLog/`);
     const secondaryAPI = this.http.get<any[]>(`${this.secondURL}/getUserActivityLog/`);
-    return race(primaryAPI, secondaryAPI) as Observable<any[]>
+    const tertiaryAPI = this.http.get<any[]>(`${this.thirdURL}/getUserActivityLog/`);
+    return race(primaryAPI, secondaryAPI, tertiaryAPI) as Observable<any[]>
   }
 
   public removeSpecificProductFromDataBase(
@@ -84,6 +87,7 @@ export class ApiService {
   ): Observable<any> {
     const url = `${this.baseURL}/deleteSpecificProductFromDatabase/`;
     const url2 = `${this.secondURL}/deleteSpecificProductFromDatabase/`;
+    const url3 = `${this.thirdURL}/deleteSpecificProductFromDatabase/`;
 
     const options = {
       params: new HttpParams().set('id', id.toString()).set('name', name)
@@ -91,7 +95,8 @@ export class ApiService {
 
     const primaryAPI = this.http.delete<any>(url, options);
     const secondaryAPI = this.http.delete<any>(url2, options);
-    return race(primaryAPI, secondaryAPI) as Observable<any>;
+    const tertiaryAPI = this.http.delete<any>(url3, options);
+    return race(primaryAPI, secondaryAPI, tertiaryAPI) as Observable<any>;
   }
 
   public editSpecificProductInDataBase(
