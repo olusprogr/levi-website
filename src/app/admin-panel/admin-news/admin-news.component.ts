@@ -11,6 +11,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {category: 'Login Issue', description: 'Fixed the bug after login that no one the buttons below are executeable.', date: '22. July 2024'},
   {category: 'Information', description: 'Added content to the information page.', date: '28. July 2024'},
   {category: 'Performance', description: 'Added third API to improve website back-end performance.', date: '27. August 2024'},
+  {category: 'Update Issue', description: 'Fixed not updateable category section in manage products', date: '09. September 2024'},
 ];
 
 

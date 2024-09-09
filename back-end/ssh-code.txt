@@ -1,1 +1,1 @@
-ssh -i "savesphere.pem" ubuntu@ec2-35-159-168-222.eu-central-1.compute.amazonaws.com
+ssh -i "savesphere.pem" ubuntu@ec2-3-73-205-106.eu-central-1.compute.amazonaws.com

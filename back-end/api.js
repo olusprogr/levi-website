@@ -4,7 +4,6 @@ const app = express();
 const port = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt');
-const { OpenAI } = require("openai");
 
 const uri = "mongodb+srv://olusmain:paR0r7oIQ82eM9PI@cluster0.ztby1wg.mongodb.net/?retryWrites=true&w=majority";
 
@@ -14,11 +13,6 @@ const client = new MongoClient(uri, {
       strict: true,
       deprecationErrors: true,
     }
-});
-
-const openai = new OpenAI({
-  apiKey: "6b906426f6bd42c7950f309b1d8cc69c",
-  baseURL: "https://api.aimlapi.com",
 });
 
 const corsOptions = {

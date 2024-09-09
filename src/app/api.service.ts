@@ -20,6 +20,7 @@ export class ApiService {
   private baseURL: string = 'https://savesphere-backend.onrender.com/api';
   private secondURL: string = 'https://savesphere-backend-2.onrender.com/api';
   private thirdURL: string = 'http://ec2-35-159-168-222.eu-central-1.compute.amazonaws.com:3000/api';
+
   private localURL: string = 'http://localhost:3000/api';
 
   
@@ -28,6 +29,7 @@ export class ApiService {
   ) {
     // this.baseURL = this.localURL
     // this.secondURL = this.localURL
+    // this.thirdURL = this.localURL
   }
 
   public requestProductsFromAPI(): Observable<Product[]> {

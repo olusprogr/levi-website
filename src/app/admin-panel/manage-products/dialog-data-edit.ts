@@ -133,5 +133,6 @@ type Product = {
       } else {
         this.selectedCategories.push(category);
       }
+      this.formData.categories = [...this.selectedCategories];
     }
   }
