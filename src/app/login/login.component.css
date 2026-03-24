@@ -1,0 +1,181 @@
+/* ── Page ── */
+.ss-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Background Glows ── */
+.ss-login__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.ss-login__glow--1 {
+  width: 400px;
+  height: 400px;
+  background: rgba(99, 102, 241, 0.15);
+  top: -100px;
+  right: -100px;
+}
+.ss-login__glow--2 {
+  width: 350px;
+  height: 350px;
+  background: rgba(168, 85, 247, 0.1);
+  bottom: -80px;
+  left: -80px;
+}
+
+/* ── Card ── */
+.ss-login__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 24px;
+  padding: 40px 36px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+/* ── Logo ── */
+.ss-login__logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.ss-login__logo {
+  position: relative;
+  width: 52px;
+  height: 52px;
+}
+
+.ss-logo__circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #818cf8 0%, #6366f1 40%, #4338ca 100%);
+  animation: pulse 3s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(99,102,241,0.6);
+}
+.ss-logo__blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.75;
+}
+.ss-logo__blob--1 { width: 14px; height: 8px; background: #a5b4fc; top: 22%; left: 28%; animation: blob 5s ease-in-out infinite; }
+.ss-logo__blob--2 { width: 10px; height: 6px; background: #c4b5fd; top: 55%; left: 58%; animation: blob 5s ease-in-out infinite 1.5s; }
+.ss-logo__blob--3 { width: 18px; height: 9px; background: #4f46e5; top: 65%; left: 38%; animation: blob 5s ease-in-out infinite 3s; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.1); }
+}
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0); }
+  33%       { transform: translate(4px, -4px); }
+  66%       { transform: translate(-4px, 4px); }
+}
+
+/* ── Headings ── */
+.ss-login__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #f1f5f9;
+  text-align: center;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+
+.ss-login__sub {
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+/* ── Form ── */
+.ss-login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ss-login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ss-login__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.ss-login__input-wrap {
+  position: relative;
+}
+
+.ss-login__input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #475569;
+  pointer-events: none;
+}
+
+.ss-login__input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.ss-login__input::placeholder { color: #334155; }
+.ss-login__input:focus {
+  border-color: rgba(99,102,241,0.5);
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
+  background: rgba(99,102,241,0.06);
+}
+
+/* ── Submit ── */
+.ss-login__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: opacity 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.ss-login__submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+}

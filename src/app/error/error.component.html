@@ -1,19 +1,23 @@
-<div class="container d-flex justify-center">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="error-template">
-                <h1>
-                    Oops!</h1>
-                <h2>
-                    404 Not Found</h2>
-                <div class="error-details">
-                    Sorry, an error has occured, Requested page not found!
-                </div>
-                <div class="error-actions">
-                    <a href="/home" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                        Take Me Home </a><a href="/home" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
-                </div>
-            </div>
-        </div>
+<div class="ss-error">
+  <div class="ss-error__glow ss-error__glow--1"></div>
+  <div class="ss-error__glow ss-error__glow--2"></div>
+
+  <div class="ss-error__content">
+    <span class="ss-error__code">404</span>
+    <h1 class="ss-error__title">Seite nicht gefunden</h1>
+    <p class="ss-error__desc">
+      Diese Seite existiert leider nicht. Vielleicht wurde sie verschoben oder die URL ist falsch.
+    </p>
+    <div class="ss-error__actions">
+      <a class="ss-error__btn-primary" href="/home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Zur Startseite
+      </a>
     </div>
+  </div>
 </div>

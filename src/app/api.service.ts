@@ -42,13 +42,14 @@ export class ApiService {
   }
 
   public checkLoginCredentials(
-    fullname: string = ' ',
-    password: string = ' '
+    fullname: string = '',
+    password: string = ''
   ): Observable<boolean> {
-    const path: string = '/checkLoginCredentials/';
+    const path: string = '/checkLoginCredentials';
+    const body = { fullname, password };
 
-    const primaryAPI = this.http.get<any>(`${this.baseURL}${path}${fullname}/${password}`);
-    const secondaryAPI = this.http.get<any>(`${this.secondURL}${path}${fullname}/${password}`);
+    const primaryAPI = this.http.post<any>(`${this.baseURL}${path}`, body);
+    const secondaryAPI = this.http.post<any>(`${this.secondURL}${path}`, body);
     return race(primaryAPI, secondaryAPI) as Observable<boolean>;
   }
 
@@ -120,8 +121,11 @@ export class ApiService {
     return this.http.post<any>(url, product);
   }
 
+  // WARNING: Website reboot must be triggered server-side only.
+  // The deploy hook key must NEVER be stored in frontend source code.
+  // Configure this through the backend API with proper authentication.
   public requestWebsiteReboot(): Observable<any> {
-    const url = 'https://api.render.com/deploy/srv-cpv3d6tumphs73c4u5j0?key=y_z5xJiMmcw';
-    return this.http.get<any>(url);
+    const url = `${this.baseURL}/triggerReboot/`;
+    return this.http.post<any>(url, {});
   }
 }

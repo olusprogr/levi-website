@@ -1,0 +1,165 @@
+/* ── Search Header ── */
+.ss-search-header {
+  padding: 100px 24px 40px;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ss-search-header__title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 10px;
+  color: #f1f5f9;
+}
+
+.ss-search-header__sub {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0 0 32px;
+}
+
+/* ── Search Bar ── */
+.ss-search-bar {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.ss-search-bar__icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #475569;
+  pointer-events: none;
+}
+
+.ss-search-bar__input {
+  width: 100%;
+  padding: 14px 18px 14px 48px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  color: #f1f5f9;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.ss-search-bar__input::placeholder {
+  color: #475569;
+}
+.ss-search-bar__input:focus {
+  border-color: rgba(99,102,241,0.5);
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
+  background: rgba(99,102,241,0.06);
+}
+
+/* ── Reuse product grid styles from start component ── */
+.ss-grid {
+  padding: 16px 0 80px;
+}
+
+.ss-grid__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.ss-product-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.22s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.22s;
+}
+.ss-product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 28px rgba(99,102,241,0.2);
+  border-color: rgba(99,102,241,0.35);
+}
+.ss-product-card__img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.ss-product-card__img-blur {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(20px) brightness(0.5) saturate(1.4);
+  transform: scale(1.1);
+}
+.ss-product-card__img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,11,26,0.1), rgba(10,11,26,0.45));
+}
+.ss-product-card__img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 20px;
+  transition: transform 0.3s;
+}
+.ss-product-card:hover .ss-product-card__img { transform: scale(1.06); }
+.ss-product-card__body {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ss-product-card__category { align-self: flex-start; }
+.ss-product-card__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0;
+  line-height: 1.4;
+}
+.ss-product-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #818cf8;
+  margin-top: 4px;
+  transition: gap 0.18s;
+}
+.ss-product-card:hover .ss-product-card__cta { gap: 9px; }
+
+/* ── Empty State ── */
+.ss-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 80px 24px;
+  color: #475569;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.ss-empty p {
+  font-size: 15px;
+  margin: 0;
+  line-height: 1.6;
+  color: #64748b;
+}
+.ss-empty strong { color: #94a3b8; }

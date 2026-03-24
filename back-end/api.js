@@ -5,7 +5,13 @@ const port = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt');
 
-const uri = "mongodb+srv://olusmain:paR0r7oIQ82eM9PI@cluster0.ztby1wg.mongodb.net/?retryWrites=true&w=majority";
+// IMPORTANT: Set MONGODB_URI as an environment variable in your deployment (Render dashboard, .env, etc.)
+// Never commit credentials to source control!
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  console.error('FATAL: MONGODB_URI environment variable is not set!');
+  process.exit(1);
+}
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -65,8 +71,11 @@ app.get('/api/getProducts/', async (req, res) => {
   }
 })
 
-app.get('/api/checkLoginCredentials/:fullname/:password', async (req, res) => {
-  const { fullname, password } = req.params;
+app.post('/api/checkLoginCredentials', async (req, res) => {
+  const { fullname, password } = req.body;
+  if (!fullname || !password) {
+    return res.status(400).send({ error: 'fullname and password are required.' });
+  }
   try {
     const database = client.db('savespehere');
     const collection = database.collection('admins');
@@ -76,7 +85,7 @@ app.get('/api/checkLoginCredentials/:fullname/:password', async (req, res) => {
       return;
     }
 
-    const passwordMatch = bcrypt.compare(password.toString(), user.password.toString());
+    const passwordMatch = await bcrypt.compare(password.toString(), user.password.toString());
     if (passwordMatch) {
       res.send({'success': 'User found and password matches.'});
     } else {
