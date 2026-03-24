@@ -2,12 +2,14 @@ import { AfterViewInit, Component, Input, OnInit, ElementRef } from '@angular/co
 import { ProductsService } from '../products.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-product',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    MatProgressSpinner
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'

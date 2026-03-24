@@ -1,4 +1,10 @@
-<div class="ss-product" id="header">
+<div id="header">
+  <div class="ss-product-loading" *ngIf="!currentProduct">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Produkt wird geladen…</p>
+  </div>
+
+  <div class="ss-product" *ngIf="currentProduct">
   <div class="ss-product__inner">
 
     <!-- Image Panel -->
@@ -71,4 +77,6 @@
       </div>
     </div>
   </div>
+  </div>
 </div>
+
